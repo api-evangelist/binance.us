@@ -1,0 +1,115 @@
+generated: '2026-08-07'
+method: searched
+source: https://docs.binance.us/#authentication
+docs: https://docs.binance.us/#authentication
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+  - query
+  oauth2_flows: []
+  request_signing: HMAC SHA-256
+  note: >-
+    Binance.US uses API key + HMAC SHA-256 request signing. There is no OAuth 2.0, OpenID Connect or
+    mutual-TLS surface, so no scopes/ artifact applies — permissions are configured per API key in the
+    account UI rather than requested as OAuth scopes.
+schemes:
+- name: X-MBX-APIKEY
+  type: apiKey
+  in: header
+  parameter: X-MBX-APIKEY
+  description: >-
+    The API key is passed to the REST API in the X-MBX-APIKEY header. API keys and secret keys are
+    case-sensitive. Keys can be restricted so one key reaches only certain endpoint classes (e.g. TRADE only);
+    by default a key can access all secure routes. IP binding is recommended by Binance.US.
+  sources:
+  - https://docs.binance.us/#authentication-types
+- name: signature
+  type: apiKey
+  in: query
+  parameter: signature
+  description: >-
+    SIGNED endpoints require a `signature` parameter: the HMAC SHA-256 of the total request payload (query
+    string and/or request body, concatenated) keyed with the account secret key. The signature is not
+    case-sensitive and may be sent in the query string or the request body; if sent in both, the query string
+    value is used.
+  sources:
+  - https://docs.binance.us/#signature-authentication
+timing:
+  timestamp_parameter: timestamp
+  timestamp_unit: milliseconds
+  recv_window_parameter: recvWindow
+  recv_window_default_ms: 5000
+  recv_window_max_ms: 60000
+  rule: >-
+    A request is processed when `timestamp < (serverTime + 1000)` and `(serverTime - timestamp) <= recvWindow`.
+    Binance.US recommends a recvWindow of 5000 ms or less.
+security_types:
+- id: NONE
+  description: Endpoint can be accessed freely.
+  requires_api_key: false
+  requires_signature: false
+- id: TRADE
+  description: Endpoint requires sending a valid API key and signature.
+  requires_api_key: true
+  requires_signature: true
+- id: USER_DATA
+  description: Endpoint requires sending a valid API key and signature.
+  requires_api_key: true
+  requires_signature: true
+- id: USER_STREAM
+  description: Endpoint requires sending a valid API key.
+  requires_api_key: true
+  requires_signature: false
+- id: MARKET_DATA
+  description: Endpoint requires sending a valid API key.
+  requires_api_key: true
+  requires_signature: false
+key_types:
+- id: exchange
+  name: Exchange API Keys
+  availability: self-serve
+  description: >-
+    Private API keys for the majority of API users to interact with Binance.US API endpoints. Provides access
+    to markets and real-time trading services. Created from the account profile menu > API Management, with
+    2FA confirmation. KYC must be completed before an API key can be created.
+  covers:
+  - REST API
+  - WebSocket API
+  - WebSocket Streams
+  - OTC endpoints (requires 'Enable Spot Trading' restriction)
+- id: custodial-solution
+  name: Custodial Solution API Keys
+  availability: agreement-required
+  description: >-
+    Only available to users who have entered into a Custody Exchange Network agreement between a participating
+    custody partner and Binance.US. Provides access to Custodial Solution endpoints only.
+  covers:
+  - Custodial Solution endpoints
+- id: credit-line
+  name: Credit Line API Keys
+  availability: agreement-required
+  description: >-
+    Only available to institutional users who have signed a credit line agreement with Binance.US. Provides
+    access to Credit Line endpoints only.
+  covers:
+  - Credit Line endpoints
+key_management:
+  console: https://www.binance.us/ (profile menu > API Management)
+  two_factor_required: true
+  kyc_required: true
+  ip_allowlisting: recommended
+errors:
+- code: -1022
+  meaning: Signature for this request is not valid.
+- code: -1021
+  meaning: Timestamp for this request is outside of the recvWindow.
+- code: -2014
+  meaning: API-key format invalid.
+- code: -2015
+  meaning: Invalid API-key, IP, or permissions for action.
+x-evidence:
+  fetched: '2026-08-07'
+  url: https://docs.binance.us/
+  http_status: 200

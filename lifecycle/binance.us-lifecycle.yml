@@ -1,0 +1,64 @@
+generated: '2026-08-07'
+method: searched
+source: https://docs.binance.us/
+versioning:
+  scheme: uri-path
+  current:
+  - path_prefix: /api/v3
+    surface: Spot exchange, market data, orders, user data streams
+  - path_prefix: /sapi/v1
+    surface: System status, wallet, sub-account, staking, OTC, custodial solution, credit line
+  - path_prefix: /wapi/v3
+    surface: Legacy wallet endpoints
+  websocket_api: wss://ws-api.binance.us/ws-api/v3
+  docs: https://docs.binance.us/#general-rest-api-information
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  practice: >-
+    Binance.US does not publish a deprecation or sunset policy, and does not emit RFC 8594 Sunset/Deprecation
+    headers. In practice it announces breaking changes in the docs changelog with an effective date and about
+    a month of notice — the 2026-07-30 entry announced the 2026-08-31 spot exchange upgrade — and it has
+    removed endpoints via dated changelog entries (Quick Enable/Disable Crypto Withdrawal on 2023-10-13,
+    Credit Line order endpoints on 2023-07-20, Withdraw Fiat via SIGNET on 2023-04-03, the 1s candlestick
+    interval on 2023-09-06). This is a practice, not a published contract, so no Deprecation pointer is
+    emitted for this provider.
+  announced_deprecations:
+  - item: exchangeInfo `permissions` field
+    status: emptied 2026-08-31, removal announced without a date
+    replacement: permissionSets
+    source: https://docs.binance.us/#changelog
+  gap: >-
+    A published deprecation/sunset policy with a stated notice window is the single clearest operational
+    transparency gap on this provider.
+sla:
+  url: null
+  uptime_target: '99.99%'
+  claim_source: https://www.binance.us/trust
+  note: >-
+    The 99.99% uptime figure is a marketing claim on the Trust page covering the website, API and mobile
+    apps. Binance.US publishes no developer SLA document.
+status_page: https://www.binance.us/status
+status_page_detail:
+  url: https://www.binance.us/status
+  features:
+  - Current status and past incidents
+  - Per-service status (crypto deposit and withdrawal, per asset network)
+  - Email subscription to updates
+changelog:
+  url: https://docs.binance.us/#changelog
+  repository: https://github.com/binance-us/binance-us-api-docs/blob/master/CHANGELOG.md
+  artifact: changelog/binance.us-changelog.yml
+support:
+  url: https://support.binance.us/en
+  api_support: https://docs.binance.us/#support
+deprecated_operations: []
+x-evidence:
+  fetched: '2026-08-07'
+  evidence:
+  - url: https://docs.binance.us/
+    http_status: 200
+  - url: https://www.binance.us/status
+    http_status: 200

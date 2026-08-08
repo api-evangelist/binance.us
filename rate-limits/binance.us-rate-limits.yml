@@ -1,0 +1,111 @@
+generated: '2026-08-07'
+method: searched
+source: https://docs.binance.us/#rate-limits-rest
+docs: https://docs.binance.us/#rate-limits-rest
+discovery:
+  endpoint: GET /api/v3/exchangeInfo
+  field: rateLimits
+  note: >-
+    The live rateLimits array on exchangeInfo is the authoritative source; the values below are the ones
+    Binance.US publishes as examples and in the changelog.
+limiters:
+- type: REQUEST_WEIGHT
+  scope: ip
+  interval: MINUTE
+  interval_num: 1
+  limit_count: 1200
+  documented_example: '{"rateLimitType":"REQUEST_WEIGHT","interval":"MINUTE","intervalNum":1,"limit":1200}'
+  note: >-
+    Raised to 6,000 per minute effective 2026-08-31 with the spot exchange upgrade (see
+    changelog/binance.us-changelog.yml).
+- type: ORDERS
+  scope: account
+  interval: SECOND
+  interval_num: 1
+  limit_count: 10
+  documented_example: '{"rateLimitType":"ORDERS","interval":"SECOND","intervalNum":1,"limit":10}'
+- type: RAW_REQUESTS
+  scope: ip
+  interval: MINUTE
+  interval_num: 5
+  limit_count: 5000
+  documented_example: '{"rateLimitType":"RAW_REQUESTS","interval":"MINUTE","intervalNum":5,"limit":5000}'
+  note: >-
+    Raised to 61,000 per 5 minutes effective 2026-08-31, and 300,000 per 5 minutes for order placement and
+    cancellation endpoints.
+- type: CONNECTIONS
+  scope: ip
+  surface: websocket-streams
+  interval: SECOND
+  interval_num: 1
+  limit_count: 5
+  description: WebSocket connections accept a maximum of 5 incoming messages per second (PING, PONG or JSON control message).
+- type: STREAMS_PER_CONNECTION
+  scope: connection
+  surface: websocket-streams
+  limit_count: 1024
+  description: A single WebSocket connection can listen to a maximum of 1024 streams.
+intervals:
+- SECOND
+- MINUTE
+- DAY
+interval_letters:
+  SECOND: S
+  MINUTE: M
+  HOUR: H
+  DAY: D
+weighting:
+  model: per-route weight
+  description: >-
+    Each route has a weight that determines how many request-weight units it consumes. Heavier endpoints and
+    endpoints that operate on multiple symbols carry a heavier weight. REST API and WebSocket API are subject
+    to the same rate-limit rules.
+  examples:
+  - endpoint: GET /api/v3/ping
+    weight: 1
+  - endpoint: GET /api/v3/time
+    weight: 1
+  - endpoint: GET /api/v3/trades
+    weight: 25
+    effective: '2026-08-31'
+  - endpoint: GET /api/v3/historicalTrades
+    weight: 25
+    effective: '2026-08-31'
+  - endpoint: GET /api/v3/aggTrades
+    weight: 4
+    effective: '2026-08-31'
+  - endpoint: GET /api/v3/myTrades
+    weight: 20 with symbol, 5 when orderId is provided
+    effective: '2026-08-31'
+  - endpoint: GET /api/v3/depth
+    weight: 5 (limit 1-100), 25 (101-500), 50 (501-1000), 250 (1001-5000)
+    effective: '2026-08-31'
+  - endpoint: GET /api/v3/myFilters
+    weight: 40
+    effective: '2026-08-31'
+headers:
+- name: X-MBX-USED-WEIGHT-(intervalNum)(intervalLetter)
+  description: Current used request weight for the IP across all request rate limiters.
+  on: every request
+- name: X-MBX-ORDER-COUNT-(intervalNum)(intervalLetter)
+  description: >-
+    Current order count for the account across all order rate limiters. Rejected or unsuccessful orders are
+    not guaranteed to carry this header.
+  on: successful order responses
+- name: Retry-After
+  description: >-
+    Seconds to wait — to prevent a ban (on a 418) or until the ban is over (on a 429).
+  on: 418 and 429 responses
+enforcement:
+  violation_status: 429
+  ban_status: 418
+  ban_scope: ip
+  ban_duration: scales for repeat offenders, from 2 minutes to 3 days
+  guidance: >-
+    When a 429 is received it is the API user's obligation to back off. Repeatedly violating rate limits
+    and/or failing to back off results in an automated IP ban (HTTP 418). Request-weight limits are enforced
+    per IP, not per API key; order rate limits are counted per account.
+x-evidence:
+  fetched: '2026-08-07'
+  url: https://docs.binance.us/
+  http_status: 200

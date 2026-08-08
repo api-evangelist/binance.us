@@ -1,0 +1,128 @@
+generated: '2026-08-07'
+method: searched
+source: https://docs.binance.us/
+docs: https://docs.binance.us/#general-rest-api-information
+base_endpoint: https://api.binance.us
+authentication:
+  style: api-key-plus-hmac-signature
+  header: X-MBX-APIKEY
+  signature_parameter: signature
+  algorithm: HMAC SHA-256
+  detail: authentication/binance.us-authentication.yml
+request:
+  content_types:
+  - application/x-www-form-urlencoded
+  rules:
+  - GET endpoints take parameters as a query string.
+  - POST, PUT and DELETE endpoints accept parameters in the query string or the request body
+    (application/x-www-form-urlencoded); the two may be mixed.
+  - Parameters may be sent in any order.
+  - If a parameter appears in both the query string and the request body, the query-string value wins.
+response:
+  media_type: application/json
+  shape: JSON object or array
+  ordering: ascending — oldest first, newest last
+  timestamps: milliseconds since epoch
+idempotency:
+  supported: false
+  mechanism: client-order-id de-duplication
+  parameters:
+  - newClientOrderId
+  - listClientOrderId
+  - limitClientOrderId
+  - stopClientOrderId
+  behaviour: >-
+    Binance.US does NOT publish an idempotency-key contract. Order-placement endpoints accept a caller-supplied
+    client order ID (newClientOrderId, and the OCO variants), and re-using an ID that is still in use is
+    REJECTED with "Duplicate order sent" (-2010) rather than replaying the original response. That is
+    de-duplication, not idempotent replay, so no Idempotency pointer is emitted for this provider.
+  safe_retry_guidance: >-
+    HTTP 5XX responses must not be treated as failures — the execution status is UNKNOWN and the operation may
+    have succeeded. Query the order (by orderId or origClientOrderId) before retrying.
+  source: https://docs.binance.us/#error-responses
+pagination:
+  style: parameter-window
+  patterns:
+  - name: limit
+    description: Row cap on list endpoints, with a documented per-endpoint maximum.
+  - name: startTime / endTime
+    description: >-
+      Millisecond time window on history endpoints. startTime may equal endTime. Some endpoints cap the span
+      (error -1127 MORE_THAN_XX_HOURS when the lookup interval is too large).
+  - name: fromId
+    description: Cursor-style id anchor on trade endpoints (aggTrades, historicalTrades, myTrades).
+  - name: orderId
+    description: Id anchor on order-history endpoints; returns orders with id >= the supplied value.
+  response_envelope: none — list endpoints return a bare JSON array
+field_expansion:
+  supported: false
+metadata:
+  supported: false
+request_tracing:
+  header: none
+  note: >-
+    No request-id / correlation-id header is documented for the REST API. On the WebSocket API and WebSocket
+    Streams the caller supplies an unsigned integer `id` in each JSON message and the server echoes it back,
+    which is the only correlation mechanism Binance.US documents.
+versioning:
+  scheme: uri-path
+  current:
+  - /api/v3 (spot exchange, market data, orders, user data streams)
+  - /sapi/v1 (system status, wallet, sub-account, staking, OTC, custodial, credit line)
+  - /wapi/v3 (legacy wallet endpoints)
+  websocket_api: wss://ws-api.binance.us/ws-api/v3
+  detail: lifecycle/binance.us-lifecycle.yml
+error_envelope:
+  format: proprietary
+  media_type: application/json
+  shape: '{"code": <negative integer>, "msg": "<message>"}'
+  rules:
+  - Codes are universal; messages can vary.
+  - HTTP 4XX indicates a malformed request (sender's side); HTTP 5XX indicates a Binance.US-side error with
+    UNKNOWN execution status.
+  - HTTP 403 signals a WAF limit violation.
+  - HTTP 409 signals a partially-successful cancelReplace.
+  - HTTP 429 signals a rate-limit breach; HTTP 418 signals an auto-ban for ignoring 429s.
+  catalog: errors/binance.us-error-codes.yml
+rate_limit_signaling:
+  headers:
+  - X-MBX-USED-WEIGHT-(intervalNum)(intervalLetter)
+  - X-MBX-ORDER-COUNT-(intervalNum)(intervalLetter)
+  - Retry-After
+  discovery_endpoint: GET /api/v3/exchangeInfo (rateLimits array)
+  scope: limits are enforced per IP for request weight, per account for order counts
+  detail: rate-limits/binance.us-rate-limits.yml
+data_sources:
+  documented: true
+  values:
+  - Matching Engine
+  - Memory
+  - Database
+  note: >-
+    Every endpoint documents its data source so callers know how fresh the response is; some endpoints fall
+    through (e.g. Memory => Database).
+validation:
+  symbol_filters:
+  - PRICE_FILTER
+  - PERCENT_PRICE
+  - PERCENT_PRICE_BY_SIDE
+  - LOT_SIZE
+  - NOTIONAL
+  - MIN_NOTIONAL
+  - ICEBERG_PARTS
+  - MARKET_LOT_SIZE
+  - MAX_NUM_ORDERS
+  - MAX_NUM_ALGO_ORDERS
+  - MAX_NUM_ICEBERG_ORDERS
+  - MAX_POSITION
+  - TRAILING_DELTA
+  exchange_filters:
+  - EXCHANGE_MAX_NUM_ORDERS
+  - EXCHANGE_MAX_NUM_ALGO_ORDERS
+  - EXCHANGE_MAX_NUM_ICEBERG_ORDERS
+  discovery_endpoint: GET /api/v3/exchangeInfo
+  docs: https://docs.binance.us/#filters
+x-evidence:
+  fetched: '2026-08-07'
+  url: https://docs.binance.us/
+  http_status: 200

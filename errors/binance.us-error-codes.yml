@@ -1,0 +1,360 @@
+generated: '2026-08-07'
+method: searched
+source: https://docs.binance.us/#error-responses
+docs: https://docs.binance.us/#error-responses
+format: proprietary
+envelope:
+  media_type: application/json
+  example: |
+    {
+      "code": -1121,
+      "msg": "Invalid symbol."
+    }
+  fields:
+  - name: code
+    description: Universal negative integer error code.
+  - name: msg
+    description: Human-readable message. Messages can vary for the same code.
+http_semantics:
+- status: 400
+  description: >-
+    HTTP 4XX return codes are used for malformed requests; the issue is on the sender's side.
+- status: 403
+  description: WAF (Web Application Firewall) limit has been violated.
+- status: 409
+  description: >-
+    A cancelReplace order partially succeeded (the cancellation failed but the new order placement succeeded).
+- status: 418
+  description: >-
+    An IP has been auto-banned for continuing to send requests after receiving 429 codes. A Retry-After header
+    gives the seconds remaining on the ban.
+- status: 429
+  description: A request rate limit was broken. A Retry-After header gives the back-off seconds.
+- status: 500
+  description: >-
+    HTTP 5XX return codes are used for internal errors on the Binance.US side. Do NOT treat this as a failed
+    operation — the execution status is UNKNOWN and may have succeeded.
+classes:
+- id: server-network
+  title: Server / network errors (10xx)
+  range: -1000 to -1022
+- id: request
+  title: Request errors (11xx / 2xxx)
+  range: -1100 to -2026
+- id: matching-engine
+  title: Matching engine errors
+  note: Message-level errors returned with -1010, -2010 and -2011.
+- id: filter-failure
+  title: Filter failure errors
+  note: Message-level errors returned when a symbol or exchange filter rejects an order.
+- id: websocket-stream
+  title: WebSocket Streams control errors
+  note: Positive small integer codes returned on the streams control channel.
+errors:
+- code: -1000
+  name: UNKNOWN
+  class: server-network
+  message: An unknown error occurred while processing the request.
+- code: -1001
+  name: DISCONNECTED
+  class: server-network
+  message: Internal error; unable to process your request. Please try again.
+- code: -1002
+  name: UNAUTHORIZED
+  class: server-network
+  message: You are not authorized to execute this request.
+- code: -1003
+  name: TOO_MANY_REQUESTS
+  class: server-network
+  message: >-
+    Too many requests queued. / Too much request weight used; current limit is %s request weight per %s. /
+    Way too much request weight used; IP banned until %s.
+  remediation: Back off and use WebSocket Streams for live updates instead of polling.
+- code: -1006
+  name: UNEXPECTED_RESP
+  class: server-network
+  message: An unexpected response was received from the message bus. Execution status is unknown.
+- code: -1007
+  name: TIMEOUT
+  class: server-network
+  message: Timeout waiting for a response from the backend server. Send status unknown; execution status unknown.
+- code: -1008
+  name: SERVER_BUSY
+  class: server-network
+  message: Spot server is currently overloaded with other requests. Please try again in a few minutes.
+- code: -1014
+  name: UNKNOWN_ORDER_COMPOSITION
+  class: server-network
+  message: Unsupported order combination.
+- code: -1015
+  name: TOO_MANY_ORDERS
+  class: server-network
+  message: Too many new orders; current limit is %s orders per %s.
+- code: -1016
+  name: SERVICE_SHUTTING_DOWN
+  class: server-network
+  message: This service is no longer available.
+- code: -1020
+  name: UNSUPPORTED_OPERATION
+  class: server-network
+  message: This operation is not supported.
+- code: -1021
+  name: INVALID_TIMESTAMP
+  class: server-network
+  message: >-
+    Timestamp for this request is outside of the recvWindow. / Timestamp for this request was 1000ms ahead of
+    the server's time.
+  remediation: Re-sync the client clock and keep recvWindow at 5000 ms or less.
+- code: -1022
+  name: INVALID_SIGNATURE
+  class: server-network
+  message: Signature for this request is not valid.
+- code: -1100
+  name: ILLEGAL_CHARS
+  class: request
+  message: Illegal characters found in parameter '%s'; the legal range is '%s'.
+- code: -1101
+  name: TOO_MANY_PARAMETERS
+  class: request
+  message: Too many parameters; expected '%s' and received '%s'. / Duplicate values for a parameter detected.
+- code: -1102
+  name: MANDATORY_PARAM_EMPTY_OR_MALFORMED
+  class: request
+  message: >-
+    Mandatory parameter '%s' was not sent, was empty/null, or was malformed. / Param '%s' or '%s' must be
+    sent, but both were empty/null.
+- code: -1103
+  name: UNKNOWN_PARAM
+  class: request
+  message: An unknown parameter was sent.
+- code: -1104
+  name: UNREAD_PARAMETERS
+  class: request
+  message: Not all sent parameters were read; read '%s' parameter(s) but was sent '%s'.
+- code: -1105
+  name: PARAM_EMPTY
+  class: request
+  message: Parameter '%s' was empty.
+- code: -1106
+  name: PARAM_NOT_REQUIRED
+  class: request
+  message: Parameter '%s' sent when not required.
+- code: -1108
+  name: PARAM_OVERFLOW
+  class: request
+  message: Parameter '%s' overflowed.
+- code: -1111
+  name: BAD_PRECISION
+  class: request
+  message: Precision is over the maximum defined for this asset.
+- code: -1112
+  name: NO_DEPTH
+  class: request
+  message: No orders on the book for this symbol.
+- code: -1114
+  name: TIF_NOT_REQUIRED
+  class: request
+  message: TimeInForce parameter sent when not required.
+- code: -1115
+  name: INVALID_TIF
+  class: request
+  message: Invalid timeInForce.
+- code: -1116
+  name: INVALID_ORDER_TYPE
+  class: request
+  message: Invalid orderType.
+- code: -1117
+  name: INVALID_SIDE
+  class: request
+  message: Invalid side.
+- code: -1118
+  name: EMPTY_NEW_CL_ORD_ID
+  class: request
+  message: New client order ID was empty.
+- code: -1119
+  name: EMPTY_ORG_CL_ORD_ID
+  class: request
+  message: Original client order ID was empty.
+- code: -1120
+  name: BAD_INTERVAL
+  class: request
+  message: Invalid interval.
+- code: -1121
+  name: BAD_SYMBOL
+  class: request
+  message: Invalid symbol.
+- code: -1125
+  name: INVALID_LISTEN_KEY
+  class: request
+  message: This listenKey does not exist.
+- code: -1127
+  name: MORE_THAN_XX_HOURS
+  class: request
+  message: More than %s hours between startTime and endTime.
+- code: -1128
+  name: OPTIONAL_PARAMS_BAD_COMBO
+  class: request
+  message: Combination of optional parameters invalid.
+- code: -1130
+  name: INVALID_PARAMETER
+  class: request
+  message: Data sent for parameter '%s' is not valid.
+- code: -1135
+  name: INVALID_JSON
+  class: request
+  message: JSON sent for parameter '%s' is not valid.
+- code: -1145
+  name: INVALID_CANCEL_RESTRICTIONS
+  class: request
+  message: cancelRestrictions has to be either ONLY_NEW or ONLY_PARTIALLY_FILLED.
+- code: -2010
+  name: NEW_ORDER_REJECTED
+  class: matching-engine
+  message: NEW_ORDER_REJECTED — see the matching-engine message list for the specific cause.
+- code: -2011
+  name: CANCEL_REJECTED
+  class: matching-engine
+  message: CANCEL_REJECTED — see the matching-engine message list for the specific cause.
+- code: -2013
+  name: NO_SUCH_ORDER
+  class: request
+  message: Order does not exist.
+- code: -2014
+  name: BAD_API_KEY_FMT
+  class: request
+  message: API-key format invalid.
+- code: -2015
+  name: REJECTED_MBX_KEY
+  class: request
+  message: Invalid API-key, IP, or permissions for action.
+- code: -2016
+  name: NO_TRADING_WINDOW
+  class: request
+  message: No trading window could be found for the symbol. Try ticker/24hrs instead.
+- code: -2021
+  name: ORDER_CANCEL_REPLACE_PARTIALLY_FAILED
+  class: request
+  message: >-
+    Order cancel-replace partially failed — either the cancellation or the new order placement failed, but not
+    both.
+- code: -2022
+  name: ORDER_CANCEL_REPLACE_FAILED
+  class: request
+  message: Order cancel-replace failed — both the cancellation and the new order placement failed.
+- code: -2026
+  name: ORDER_ARCHIVED
+  class: request
+  message: >-
+    Order was canceled or expired with no executed qty over 90 days ago and has been archived.
+matching_engine_messages:
+- message: Unknown order sent
+  description: The order (by orderId, clOrdId or origClOrdId) could not be found.
+- message: Duplicate order sent
+  description: The clOrdId is already in use.
+- message: Market is closed
+  description: The symbol is not trading.
+- message: Account has insufficient balance for requested action
+  description: Not enough funds to complete the action.
+- message: Market orders are not supported for this symbol
+  description: MARKET is not enabled on the symbol.
+- message: Iceberg orders are not supported for this symbol
+  description: icebergQty is not enabled on the symbol.
+- message: Stop loss orders are not supported for this symbol
+  description: STOP_LOSS is not enabled on the symbol.
+- message: Stop loss limit orders are not supported for this symbol
+  description: STOP_LOSS_LIMIT is not enabled on the symbol.
+- message: Take profit orders are not supported for this symbol
+  description: TAKE_PROFIT is not enabled on the symbol.
+- message: Take profit limit orders are not supported for this symbol
+  description: TAKE_PROFIT_LIMIT is not enabled on the symbol.
+- message: Price * QTY is zero or less
+  description: Price * quantity is too low.
+- message: IcebergQty exceeds QTY
+  description: icebergQty must be less than the order quantity.
+- message: This action is disabled on this account
+  description: Contact customer support; some actions have been disabled on the account.
+- message: Unsupported order combination
+  description: The orderType, timeInForce, stopPrice and/or icebergQty combination is not allowed.
+- message: Order would trigger immediately
+  description: The order's stop price is not valid compared to the last traded price.
+- message: Cancel order is invalid. Check origClOrdId and orderId.
+  description: No origClOrdId or orderId was sent.
+- message: Order would immediately match and take
+  description: A LIMIT_MAKER order would immediately match and trade instead of resting as a pure maker order.
+- message: The relationship of the prices for the orders is not correct
+  description: >-
+    OCO price rules broken. SELL orders require Limit Price > Last Price > Stop Price; BUY orders require
+    Limit Price < Last Price < Stop Price.
+- message: OCO orders are not supported for this symbol
+  description: OCO is not enabled on the symbol.
+- message: Quote order qty market orders are not support for this symbol
+  description: MARKET orders using quoteOrderQty are not enabled on this symbol.
+- message: Trailing stop orders are not supported for this symbol.
+  description: Orders using trailingDelta are not enabled on the symbol.
+- message: Order cancel-replace is not supported for this symbol.
+  description: POST /api/v3/order/cancelReplace is not enabled for the symbol.
+- message: This symbol is not permitted for this account.
+  description: Account does not have permission to trade on this symbol.
+- message: This symbol is restricted for this account.
+  description: Account does not have permission to trade on this symbol.
+- message: Order was not canceled due to cancel restrictions.
+  description: >-
+    cancelRestrictions was ONLY_NEW but the order status was not NEW, or ONLY_PARTIALLY_FILLED but the order
+    status was not PARTIALLY_FILLED.
+filter_failures:
+- message: 'Filter failure: PRICE_FILTER'
+  description: Price is too high, too low, and/or not following the tick size rule for the symbol.
+- message: 'Filter failure: PERCENT_PRICE'
+  description: Price is X% too high or X% too low from the average weighted price over the last Y minutes.
+- message: 'Filter failure: LOT_SIZE'
+  description: Quantity is too high, too low, and/or not following the step size rule for the symbol.
+- message: 'Filter failure: MIN_NOTIONAL'
+  description: Price * Quantity is too low to be a valid order for the symbol.
+- message: 'Filter failure: ICEBERG_PARTS'
+  description: ICEBERG order would break into too many parts; icebergQty is too small.
+- message: 'Filter failure: MARKET_LOT_SIZE'
+  description: >-
+    MARKET order's quantity is too high, too low, and/or not following the step size rule for the symbol.
+- message: 'Filter failure: MAX_NUM_ORDERS'
+  description: Account has too many open orders on the symbol.
+- message: 'Filter failure: MAX_ALGO_ORDERS'
+  description: Account has too many open stop loss and/or take profit orders on the symbol.
+- message: 'Filter failure: MAX_NUM_ICEBERG_ORDERS'
+  description: Account has too many open iceberg orders on the symbol.
+- message: 'Filter failure: TRAILING_DELTA'
+  description: trailingDelta is not within the defined range of the filter for that order type.
+- message: 'Filter failure: EXCHANGE_MAX_NUM_ORDERS'
+  description: Account has too many open orders on the exchange.
+- message: 'Filter failure: EXCHANGE_MAX_ALGO_ORDERS'
+  description: Account has too many open stop loss and/or take profit orders on the exchange.
+websocket_stream_errors:
+- code: 0
+  message: Unknown property
+  description: Parameter used in SET_PROPERTY or GET_PROPERTY was invalid.
+- code: 1
+  message: 'Invalid value type: expected Boolean'
+  description: Value should only be true or false.
+- code: 2
+  message: 'Invalid request: property name must be a string'
+  description: Property name provided was invalid or was not provided.
+- code: 2
+  message: 'Invalid request: request ID must be an unsigned integer'
+  description: Parameter id had to be provided, or the value provided was an unsupported type.
+- code: 2
+  message: 'Invalid request: unknown variant %s'
+  description: >-
+    Possible typo in the provided method, or the method was not one of SUBSCRIBE, UNSUBSCRIBE,
+    LIST_SUBSCRIPTIONS, SET_PROPERTY, GET_PROPERTY.
+- code: 2
+  message: 'Invalid request: too many parameters'
+  description: Unnecessary parameters provided in the data.
+- code: 2
+  message: 'Invalid request: missing field method'
+  description: method was not provided in the data.
+- code: 3
+  message: 'Invalid JSON: expected value at line %s column %s'
+  description: JSON data sent has incorrect syntax.
+x-evidence:
+  fetched: '2026-08-07'
+  url: https://docs.binance.us/
+  http_status: 200

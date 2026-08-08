@@ -1,0 +1,15 @@
+generated: '2026-08-07'
+method: searched
+probe: true
+source: https://www.binance.us/trust
+url: https://www.binance.us/trust
+certifications:
+- SOC 2
+- ISO 27001
+- PCI DSS
+evidence:
+- source: https://www.binance.us/trust
+  keywords:
+  - soc 2
+  - iso/iec 27001
+  - pci dss

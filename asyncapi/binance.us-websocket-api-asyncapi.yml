@@ -1,0 +1,182 @@
+asyncapi: 2.6.0
+info:
+  title: Binance.US WebSocket API
+  version: '3'
+  description: >-
+    The Binance.US WebSocket API is a request/response API delivered over a persistent WebSocket connection.
+    It is functionally equivalent to the REST API — same features, same parameters, same status and error
+    codes — but offers lower latency for time-sensitive trading. Requests are sent as JSON in text frames, one
+    request per frame, carrying an arbitrary `id`, a `method` name and an optional `params` object; the server
+    echoes `id` back on every response. Responses carry `id`, an HTTP-style `status`, a `result` or an
+    `error`, and a `rateLimits` array. SIGNED methods (TRADE and USER_DATA) require `apiKey`, `timestamp` and
+    an HMAC SHA-256 `signature` inside `params`. A single connection is valid for 24 hours; the server sends a
+    ping frame every 3 minutes and disconnects if no pong is received within 10 minutes.
+
+
+    This document is an API Evangelist generation from the published Binance.US documentation. Binance.US does
+    not publish an AsyncAPI document of its own.
+  contact:
+    name: Binance.US API Support
+    url: https://support.binance.us/en
+  license:
+    name: Binance.US Terms of Use
+    url: https://www.binance.us/terms-of-use
+  x-generated: '2026-08-07'
+  x-method: generated
+  x-source: https://docs.binance.us/#websocket-api
+externalDocs:
+  description: Binance.US WebSocket API documentation
+  url: https://docs.binance.us/#websocket-api
+defaultContentType: application/json
+servers:
+  production:
+    url: ws-api.binance.us:443/ws-api/v3
+    protocol: wss
+    description: >-
+      Production WebSocket API endpoint. Alternative port 9443 is available if port 443 is blocked.
+    security:
+    - apiKeySignature: []
+channels:
+  /ws-api/v3:
+    description: >-
+      The single request/response channel of the Binance.US WebSocket API. The `method` field selects the
+      operation; method names may be prefixed with an explicit version, e.g. "v3/order.place".
+    publish:
+      operationId: sendRequest
+      summary: Send a WebSocket API request.
+      message:
+        $ref: '#/components/messages/Request'
+    subscribe:
+      operationId: receiveResponse
+      summary: Receive the matching WebSocket API response.
+      message:
+        oneOf:
+        - $ref: '#/components/messages/SuccessResponse'
+        - $ref: '#/components/messages/ErrorResponse'
+components:
+  securitySchemes:
+    apiKeySignature:
+      type: userPassword
+      description: >-
+        SIGNED (TRADE and USER_DATA) methods require `apiKey`, `timestamp` and an HMAC SHA-256 `signature`
+        inside the request `params`, using the same signing rules as the REST API.
+  messages:
+    Request:
+      name: request
+      title: WebSocket API request
+      contentType: application/json
+      payload:
+        type: object
+        required: [id, method]
+        properties:
+          id:
+            type: ['integer','string','null']
+            description: >-
+              Arbitrary ID used to match responses to requests. The server does not interpret it and simply
+              echoes it back.
+          method:
+            type: string
+            description: Request method name. May be version-prefixed, e.g. v3/order.place.
+            enum:
+            - ping
+            - time
+            - exchangeInfo
+            - depth
+            - trades.recent
+            - trades.historical
+            - trades.aggregate
+            - klines
+            - avgPrice
+            - ticker.24hr
+            - ticker
+            - ticker.price
+            - ticker.book
+            - order.place
+            - order.test
+            - order.status
+            - order.cancel
+            - order.cancelReplace
+            - openOrders.status
+            - openOrders.cancelAll
+            - orderList.place
+            - orderList.status
+            - orderList.cancel
+            - openOrderLists.status
+            - account.status
+            - account.rateLimits.orders
+            - allOrders
+            - allOrderLists
+            - myTrades
+            - myPreventedMatches
+            - userDataStream.start
+            - userDataStream.ping
+            - userDataStream.stop
+          params:
+            type: object
+            description: >-
+              Request parameters; may be omitted when the method takes none. Order of params is not
+              significant. SIGNED methods additionally require apiKey, timestamp and signature.
+    SuccessResponse:
+      name: successResponse
+      title: WebSocket API success response
+      contentType: application/json
+      payload:
+        type: object
+        required: [id, status]
+        properties:
+          id:
+            type: ['integer','string','null']
+            description: Same as in the original request.
+          status:
+            type: integer
+            description: HTTP-style status code. 200 indicates success.
+          result:
+            type: ['object','array']
+            description: Response content. Present if the request succeeded.
+          rateLimits:
+            $ref: '#/components/schemas/RateLimits'
+    ErrorResponse:
+      name: errorResponse
+      title: WebSocket API error response
+      contentType: application/json
+      payload:
+        type: object
+        required: [id, status, error]
+        properties:
+          id:
+            type: ['integer','string','null']
+          status:
+            type: integer
+            description: >-
+              400 the request failed; 403 blocked by the Web Application Firewall; 409 partially failed and
+              partially succeeded; 418 auto-banned for repeated rate-limit violations; 429 rate limit
+              exceeded; 5XX internal error — execution status is UNKNOWN, confirm with a query method.
+          error:
+            type: object
+            properties:
+              code:
+                type: integer
+                description: Binance.US error code (see errors/binance.us-error-codes.yml).
+              msg:
+                type: string
+          rateLimits:
+            $ref: '#/components/schemas/RateLimits'
+  schemas:
+    RateLimits:
+      type: array
+      description: Rate limiting status returned alongside the response.
+      items:
+        type: object
+        properties:
+          rateLimitType:
+            type: string
+            enum: [REQUEST_WEIGHT, ORDERS, RAW_REQUESTS]
+          interval:
+            type: string
+            enum: [SECOND, MINUTE, DAY]
+          intervalNum:
+            type: integer
+          limit:
+            type: integer
+          count:
+            type: integer

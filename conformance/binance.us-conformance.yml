@@ -1,0 +1,102 @@
+generated: '2026-08-07'
+method: searched
+source: https://docs.binance.us/ + https://www.binance.us/trust + https://www.binance.us/compliance
+standards:
+- id: oauth2
+  conforms: false
+  evidence: >-
+    No OAuth 2.0 surface. Authentication is API key plus HMAC SHA-256 request signing
+    (https://docs.binance.us/#authentication-types).
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration is not served on any Binance.US host.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Errors use a proprietary {"code": <int>, "msg": "<string>"} envelope with application/json, not
+    application/problem+json (https://docs.binance.us/#error-responses).
+- id: rfc9116-security-txt
+  conforms: true
+  evidence: >-
+    https://www.binance.us/.well-known/security.txt returns 200 and cites RFC 9116, with Contact, Expires,
+    Preferred-Languages and Canonical fields.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No Sunset or Deprecation headers are documented; breaking changes are announced in the changelog.
+- id: rfc6455-websocket
+  conforms: true
+  evidence: >-
+    WebSocket API (wss://ws-api.binance.us/ws-api/v3) and WebSocket Streams (wss://stream.binance.us:9443)
+    with documented ping/pong keepalive semantics.
+- id: json-rpc-style-websocket
+  conforms: partial
+  evidence: >-
+    WebSocket control and API messages carry a caller-supplied `id` echoed in the response and a `method`
+    field, but the payloads are not JSON-RPC 2.0 (no jsonrpc version member).
+- id: hmac-sha256-request-signing
+  conforms: true
+  evidence: >-
+    SIGNED endpoints require an HMAC SHA-256 signature over the total request payload, with timestamp and
+    recvWindow replay bounding (https://docs.binance.us/#signature-authentication).
+- id: openapi
+  conforms: false
+  evidence: >-
+    No OpenAPI or Swagger document is published. Probed https://api.binance.us/openapi.json (404),
+    /swagger.json (404), /api-docs (404), /docs (404) and https://docs.binance.us/openapi.json (404).
+- id: asyncapi
+  conforms: false
+  evidence: >-
+    No AsyncAPI document is published for the WebSocket surfaces; the specs in asyncapi/ are API Evangelist
+    generations from the published documentation.
+- id: soc2
+  conforms: true
+  evidence: >-
+    "Binance.US continues to meet SOC 2 and ISO exam requirements" — https://www.binance.us/trust
+- id: iso-27001
+  conforms: true
+  evidence: >-
+    ISO/IEC 27001:2013 accreditation named on https://www.binance.us/trust
+- id: iso-27701
+  conforms: true
+  evidence: >-
+    ISO/IEC 27701:2022 privacy information management accreditation named on https://www.binance.us/trust
+- id: pci-dss
+  conforms: true
+  evidence: PCI DSS named in the trust-page body captured by the security-programs probe.
+- id: bsa-aml
+  conforms: true
+  evidence: >-
+    BAM Trading Services, Inc. (dba Binance.US) is a FinCEN-registered Money Services Business maintaining AML
+    policies and controls under the Bank Secrecy Act — https://www.binance.us/compliance
+- id: kyc-cip
+  conforms: true
+  evidence: >-
+    Customer Identification Program with KYC/KYB screening and OFAC/sanctions, PEP and negative-news screening
+    — https://www.binance.us/compliance
+- id: state-money-transmitter-licensing
+  conforms: true
+  evidence: >-
+    Multiple U.S. state money transmitter licenses — https://www.binance.us/trust and
+    https://support.binance.us/en/articles/10471695-licenses
+compliance_program:
+  url: https://www.binance.us/compliance
+  trust_center: https://www.binance.us/trust
+  certifications:
+  - SOC 2
+  - ISO/IEC 27001:2013
+  - ISO/IEC 27701:2022
+  - PCI DSS
+  registrations:
+  - FinCEN-registered Money Services Business (BAM Trading Services, Inc.)
+  - U.S. state money transmitter licenses
+x-evidence:
+  fetched: '2026-08-07'
+  evidence:
+  - url: https://docs.binance.us/
+    http_status: 200
+  - url: https://www.binance.us/trust
+    http_status: 200
+  - url: https://www.binance.us/compliance
+    http_status: 200
+  - url: https://api.binance.us/openapi.json
+    http_status: 404

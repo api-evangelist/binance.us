@@ -1,0 +1,133 @@
+generated: '2026-08-07'
+method: searched
+source: https://docs.binance.us/#changelog
+docs: https://docs.binance.us/#changelog
+repository: https://github.com/binance-us/binance-us-api-docs/blob/master/CHANGELOG.md
+scheme: dated
+current_version: /api/v3
+window: recent entries only — the live changelog is the source of truth
+entries:
+- date: '2026-07-30'
+  effective: '2026-08-31'
+  title: Spot exchange upgrade
+  breaking: true
+  highlights:
+  - >-
+    exchangeInfo symbol permission data moves from `permissions` to `permissionSets`; `permissions` is emptied
+    and will be removed in a future release. permissionSets is an array of arrays — AND across arrays, OR
+    within an array.
+  - New optional `showPermissionSets` parameter on GET /api/v3/exchangeInfo to omit permissionSets.
+  - >-
+    Order placement responses gain an `expiryReason` field (RESULT/FULL response types only) on POST
+    /api/v3/order, POST /api/v3/order/oco and POST /api/v3/order/cancelReplace.
+  - >-
+    Rate limits raised — REQUEST_WEIGHT to 6,000/minute, RAW_REQUESTS to 61,000/5 minutes (300,000/5 minutes
+    for order placement and cancellation).
+  - >-
+    Weights raised — trades and historicalTrades to 25, aggTrades to 4, myTrades to 20 (5 with orderId), depth
+    to 5/25/50/250 by limit tier.
+  - >-
+    executionReport TRADE_PREVENTION events now zero l/L/Y and add pl, pL and pY; new eR field carries the
+    expiry reason, also returned by order.place, order.cancelReplace and orderList.place.
+  - >-
+    WebSocket ping frame interval drops from 3 minutes to 20 seconds, pong timeout from 10 minutes to 1
+    minute; connecting to the WebSocket API now costs 2 weight.
+  - New `serverShutdown` WebSocket event announcing an imminent server shutdown.
+  - New MAX_NUM_ORDER_LISTS filter (20 order lists per symbol).
+  - >-
+    New account-specific MAX_ASSET filter, not returned by exchangeInfo; new endpoint GET /api/v3/myFilters
+    (weight 40) exposes the filters applied to your account.
+- date: '2026-05-15'
+  breaking: false
+  title: OTC and OCBS order response fields documented
+  highlights:
+  - >-
+    POST /sapi/v1/otc/orders response fields documented — the synchronous response always returns orderStatus
+    PROCESS; terminal SUCCESS/FAIL must be polled from GET /sapi/v1/otc/orders/{orderId}.
+  - GET /sapi/v1/otc/orders/{orderId} and GET /sapi/v1/otc/orders response field tables added.
+  - GET /sapi/v1/ocbs/orders response field table added (PROCESS / SUCCESS / FAIL).
+- date: '2026-05-12'
+  breaking: false
+  title: OTC endpoint documentation corrected to match the real response shape
+  highlights:
+  - >-
+    POST /sapi/v1/otc/quotes returns quoteId only when the fromCoin balance is sufficient; otherwise the quote
+    is informational and cannot be passed to POST /sapi/v1/otc/orders.
+  - All decimal fields across the OTC and OCBS responses corrected to quoted JSON strings.
+- date: '2026-05-08'
+  breaking: false
+  title: Fiat wire withdrawal changes
+  highlights:
+  - >-
+    POST /sapi/v1/fiatpayment/withdraw/apply accepts either a paymentMethodId or a linked bank account number
+    in paymentAccount when paymentMethod=WIRE.
+  - Minimum WIRE withdrawal amount of 100 enforced; lower requests are rejected with HTTP 400.
+- date: '2026-04-27'
+  breaking: false
+  title: OTC endpoint access instructions added to the Authentication section.
+- date: '2023-10-13'
+  breaking: true
+  title: Removed 'Quick Enable Crypto Withdrawal' and 'Quick Disable Crypto Withdrawal' endpoints.
+- date: '2023-09-20'
+  breaking: false
+  title: Added 'Withdraw Fiat via BITGO' endpoint.
+- date: '2023-09-13'
+  breaking: false
+  title: Credit Line account information and alert history endpoints updated for multi-asset loan.
+- date: '2023-09-06'
+  breaking: true
+  title: Removed the 1s candlestick interval.
+- date: '2023-07-20'
+  breaking: true
+  title: Removed order-related Credit Line endpoints.
+- date: '2023-06-26'
+  breaking: false
+  title: Added API Partner Endpoints section; updated Get Asset Distribution History for the API Partner Program.
+- date: '2023-06-09'
+  breaking: true
+  title: Removed USD from Convert Dust.
+- date: '2023-05-12'
+  breaking: false
+  title: Spot WebSocket API launched for Binance.US
+  highlights:
+  - >-
+    A separate service from WebSocket market data streams — placing orders and listening to market data
+    requires two separate connections.
+  - Subject to the same filter and rate limit rules as the REST API, and functionally equivalent to it.
+- date: '2023-04-17'
+  breaking: false
+  title: Convert dust endpoints support conversion to BNB/BTC/ETH/USD.
+- date: '2023-04-03'
+  breaking: true
+  title: Removed 'Withdraw Fiat (via SIGNET)' endpoint.
+- date: '2023-03-16'
+  breaking: true
+  title: Error message improvements, filter evaluation change and cancelRestrictions
+  highlights:
+  - Clearer error messages for disabled trading, symbol permission mismatches and unsupported trading phases.
+  - Archived orders now return -2026 instead of -2013.
+  - startTime may now equal endTime on aggTrades, klines, allOrderList, allOrders and myTrades.
+  - LOT_SIZE / MARKET_LOT_SIZE evaluation changed to (quantity % stepSize) == 0.
+  - Reverse MARKET orders that do not fully fill now report EXPIRED instead of FILLED.
+  - New optional cancelRestrictions parameter on DELETE /api/v3/order and POST /api/v3/order/cancelReplace.
+  - Added GET /api/v3/allOrders.
+- date: '2023-02-23'
+  breaking: false
+  title: New Credit Line API key type and Credit Line Endpoints section.
+- date: '2023-01-24'
+  effective: '2023-01-31'
+  breaking: true
+  title: Self-Trade Prevention (STP)
+  highlights:
+  - >-
+    STP prevents matching against the same account or accounts sharing a tradeGroupId; modes EXPIRE_MAKER,
+    EXPIRE_TAKER and EXPIRE_BOTH are confirmed via GET /api/v3/exchangeInfo.
+  - New order status EXPIRED_IN_MATCH.
+  - New endpoint GET /api/v3/myPreventedMatches.
+x-evidence:
+  fetched: '2026-08-07'
+  evidence:
+  - url: https://docs.binance.us/
+    http_status: 200
+  - url: https://raw.githubusercontent.com/binance-us/binance-us-api-docs/master/CHANGELOG.md
+    http_status: 200

@@ -1,0 +1,505 @@
+asyncapi: 2.6.0
+info:
+  title: Binance.US WebSocket Streams
+  version: '1.0.0'
+  description: >-
+    Binance.US WebSocket Streams deliver real-time market data and account events over persistent WebSocket
+    connections. Streams can be consumed as a single raw stream at /ws/<streamName> or as a combined stream at
+    /stream?streams=<a>/<b>/<c>, where combined events are wrapped as
+    {"stream":"<streamName>","data":<rawPayload>}. All stream symbols are lowercase. A single connection is
+    valid for 24 hours; the server sends a ping frame every 3 minutes and disconnects if no pong is received
+    within 10 minutes. A connection accepts at most 5 incoming messages per second and may subscribe to at
+    most 1024 streams.
+
+
+    This document is an API Evangelist generation from the published Binance.US documentation. Binance.US does
+    not publish an AsyncAPI document of its own.
+  contact:
+    name: Binance.US API Support
+    url: https://support.binance.us/en
+  license:
+    name: Binance.US Terms of Use
+    url: https://www.binance.us/terms-of-use
+  x-generated: '2026-08-07'
+  x-method: generated
+  x-source: https://docs.binance.us/#websocket-streams
+externalDocs:
+  description: Binance.US WebSocket Streams documentation
+  url: https://docs.binance.us/#websocket-streams
+defaultContentType: application/json
+servers:
+  production:
+    url: stream.binance.us:9443
+    protocol: wss
+    description: >-
+      Production WebSocket stream server. Raw streams at /ws/<streamName>, combined streams at
+      /stream?streams=<streamName1>/<streamName2>. Also reachable on port 443.
+channels:
+  '{symbol}@aggTrade':
+    description: >-
+      Aggregate Trade Stream — trade information aggregated for a single taker order. Update speed real-time.
+    parameters:
+      symbol:
+        description: Lowercase trading symbol, e.g. btcusdt.
+        schema:
+          type: string
+    subscribe:
+      operationId: aggTradeStream
+      summary: Receive aggregate trade events for a symbol.
+      message:
+        $ref: '#/components/messages/AggTrade'
+  '{symbol}@trade':
+    description: Trade Stream — raw trade information; each trade has a unique buyer and seller. Update speed real-time.
+    parameters:
+      symbol:
+        schema:
+          type: string
+    subscribe:
+      operationId: tradeStream
+      summary: Receive raw trade events for a symbol.
+      message:
+        $ref: '#/components/messages/Trade'
+  '{symbol}@kline_{interval}':
+    description: >-
+      Kline/Candlestick Stream — pushes updates to the current kline every second. Intervals 1m, 3m, 5m, 15m,
+      30m, 1h, 2h, 4h, 6h, 8h, 12h, 1d, 3d, 1w, 1M.
+    parameters:
+      symbol:
+        schema:
+          type: string
+      interval:
+        schema:
+          type: string
+          enum: ['1m','3m','5m','15m','30m','1h','2h','4h','6h','8h','12h','1d','3d','1w','1M']
+    subscribe:
+      operationId: klineStream
+      summary: Receive kline/candlestick events for a symbol and interval.
+      message:
+        $ref: '#/components/messages/Kline'
+  '{symbol}@ticker':
+    description: 24hr rolling window ticker statistics for a single symbol. Update speed 1000ms.
+    parameters:
+      symbol:
+        schema:
+          type: string
+    subscribe:
+      operationId: ticker24hStream
+      summary: Receive 24hr rolling window ticker statistics for a symbol.
+      message:
+        $ref: '#/components/messages/Ticker24hr'
+  '!ticker@arr':
+    description: >-
+      24hr rolling window ticker statistics for all symbols that changed, delivered as an array. Update speed
+      1000ms.
+    subscribe:
+      operationId: allMarketTickerStream
+      summary: Receive 24hr ticker statistics for every changed symbol.
+      message:
+        $ref: '#/components/messages/Ticker24hrArray'
+  '{symbol}@ticker_{windowSize}':
+    description: >-
+      Rolling window ticker statistics for a single symbol over a 1h or 4h window. Update speed 1000ms. The
+      open time O always starts at the beginning of the minute, so the effective window can be up to 59999ms
+      wider than the requested window size.
+    parameters:
+      symbol:
+        schema:
+          type: string
+      windowSize:
+        schema:
+          type: string
+          enum: ['1h','4h']
+    subscribe:
+      operationId: rollingWindowTickerStream
+      summary: Receive rolling-window ticker statistics for a symbol.
+      message:
+        $ref: '#/components/messages/RollingWindowTicker'
+  '!ticker_{windowSize}@arr':
+    description: Rolling window ticker statistics for all changed symbols. Update speed 1000ms.
+    parameters:
+      windowSize:
+        schema:
+          type: string
+          enum: ['1h','4h']
+    subscribe:
+      operationId: allMarketRollingWindowTickerStream
+      summary: Receive rolling-window ticker statistics for every changed symbol.
+      message:
+        $ref: '#/components/messages/RollingWindowTickerArray'
+  '{symbol}@miniTicker':
+    description: 24hr rolling window mini-ticker statistics for a single symbol. Update speed 1000ms.
+    parameters:
+      symbol:
+        schema:
+          type: string
+    subscribe:
+      operationId: miniTickerStream
+      summary: Receive 24hr mini-ticker statistics for a symbol.
+      message:
+        $ref: '#/components/messages/MiniTicker'
+  '!miniTicker@arr':
+    description: 24hr rolling window mini-ticker statistics for all changed symbols. Update speed 1000ms.
+    subscribe:
+      operationId: allMarketMiniTickerStream
+      summary: Receive 24hr mini-ticker statistics for every changed symbol.
+      message:
+        $ref: '#/components/messages/MiniTickerArray'
+  '{symbol}@bookTicker':
+    description: >-
+      Pushes any update to the best bid or ask price or quantity in real-time for a specified symbol.
+    parameters:
+      symbol:
+        schema:
+          type: string
+    subscribe:
+      operationId: bookTickerStream
+      summary: Receive best bid/ask updates for a symbol.
+      message:
+        $ref: '#/components/messages/BookTicker'
+  '{symbol}@depth{levels}':
+    description: >-
+      Partial Order Book Depth Stream — top <levels> bids and asks. Valid levels are 5, 10 or 20. Update speed
+      1000ms, or 100ms when the stream name is suffixed with @100ms.
+    parameters:
+      symbol:
+        schema:
+          type: string
+      levels:
+        schema:
+          type: string
+          enum: ['5','10','20']
+    subscribe:
+      operationId: partialDepthStream
+      summary: Receive a partial order book snapshot for a symbol.
+      message:
+        $ref: '#/components/messages/PartialDepth'
+  '{symbol}@depth':
+    description: >-
+      Order Book Depth Diff Stream — order book price and quantity depth updates used to manage a local order
+      book. Update speed 1000ms, or 100ms when the stream name is suffixed with @100ms.
+    parameters:
+      symbol:
+        schema:
+          type: string
+    subscribe:
+      operationId: diffDepthStream
+      summary: Receive order book diff updates for a symbol.
+      message:
+        $ref: '#/components/messages/DepthUpdate'
+  '{listenKey}':
+    description: >-
+      User Data Stream — account, order and balance events for the authenticated account. Accessed at
+      /ws/<listenKey> or /stream?streams=<listenKey>. The listenKey is created with POST
+      /api/v3/userDataStream, is valid for 60 minutes, is extended by PUT and invalidated by DELETE.
+    parameters:
+      listenKey:
+        description: The listenKey returned by POST /api/v3/userDataStream.
+        schema:
+          type: string
+    subscribe:
+      operationId: userDataStream
+      summary: Receive account, order and balance events for the authenticated account.
+      message:
+        oneOf:
+        - $ref: '#/components/messages/OutboundAccountPosition'
+        - $ref: '#/components/messages/BalanceUpdate'
+        - $ref: '#/components/messages/ExecutionReport'
+components:
+  messages:
+    AggTrade:
+      name: aggTrade
+      title: Aggregate Trade
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          e: {type: string, description: Event type, const: aggTrade}
+          E: {type: integer, description: Event time (ms)}
+          s: {type: string, description: Symbol}
+          a: {type: integer, description: Aggregate trade ID}
+          p: {type: string, description: Price}
+          q: {type: string, description: Quantity}
+          f: {type: integer, description: First trade ID}
+          l: {type: integer, description: Last trade ID}
+          T: {type: integer, description: Trade time (ms)}
+          m: {type: boolean, description: 'Is the buyer the market maker?'}
+          M: {type: boolean, description: Ignore}
+    Trade:
+      name: trade
+      title: Trade
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          e: {type: string, description: Event type, const: trade}
+          E: {type: integer, description: Event time (ms)}
+          s: {type: string, description: Symbol}
+          t: {type: integer, description: Trade ID}
+          p: {type: string, description: Price}
+          q: {type: string, description: Quantity}
+          b: {type: integer, description: Buyer order ID}
+          a: {type: integer, description: Seller order ID}
+          T: {type: integer, description: Trade time (ms)}
+          m: {type: boolean, description: 'Is the buyer the market maker?'}
+          M: {type: boolean, description: Ignore}
+    Kline:
+      name: kline
+      title: Kline / Candlestick
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          e: {type: string, description: Event type, const: kline}
+          E: {type: integer, description: Event time (ms)}
+          s: {type: string, description: Symbol}
+          k:
+            type: object
+            properties:
+              t: {type: integer, description: Kline start time}
+              T: {type: integer, description: Kline close time}
+              s: {type: string, description: Symbol}
+              i: {type: string, description: Interval}
+              f: {type: integer, description: First trade ID}
+              L: {type: integer, description: Last trade ID}
+              o: {type: string, description: Open price}
+              c: {type: string, description: Close price}
+              h: {type: string, description: High price}
+              l: {type: string, description: Low price}
+              v: {type: string, description: Base asset volume}
+              n: {type: integer, description: Number of trades}
+              x: {type: boolean, description: 'Is this kline closed?'}
+              q: {type: string, description: Quote asset volume}
+              V: {type: string, description: Taker buy base asset volume}
+              Q: {type: string, description: Taker buy quote asset volume}
+              B: {type: string, description: Ignore}
+    Ticker24hr:
+      name: 24hrTicker
+      title: 24hr Ticker Statistics
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          e: {type: string, description: Event type, const: 24hrTicker}
+          E: {type: integer, description: Event time (ms)}
+          s: {type: string, description: Symbol}
+          p: {type: string, description: Price change}
+          P: {type: string, description: Price change percent}
+          w: {type: string, description: Weighted average price}
+          x: {type: string, description: First trade (F)-1 price}
+          c: {type: string, description: Last price}
+          Q: {type: string, description: Last quantity}
+          b: {type: string, description: Best bid price}
+          B: {type: string, description: Best bid quantity}
+          a: {type: string, description: Best ask price}
+          A: {type: string, description: Best ask quantity}
+          o: {type: string, description: Open price}
+          h: {type: string, description: High price}
+          l: {type: string, description: Low price}
+          v: {type: string, description: Total traded base asset volume}
+          q: {type: string, description: Total traded quote asset volume}
+          O: {type: integer, description: Statistics open time}
+          C: {type: integer, description: Statistics close time}
+          F: {type: integer, description: First trade ID}
+          L: {type: integer, description: Last trade ID}
+          n: {type: integer, description: Total number of trades}
+    Ticker24hrArray:
+      name: allMarket24hrTicker
+      title: All Market 24hr Ticker Statistics
+      contentType: application/json
+      payload:
+        type: array
+        items:
+          $ref: '#/components/messages/Ticker24hr/payload'
+    RollingWindowTicker:
+      name: rollingWindowTicker
+      title: Rolling Window Ticker Statistics
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          e: {type: string, description: 'Event type, e.g. 1hTicker or 4hTicker'}
+          E: {type: integer, description: Event time (ms)}
+          s: {type: string, description: Symbol}
+          p: {type: string, description: Price change}
+          P: {type: string, description: Price change percent}
+          o: {type: string, description: Open price}
+          h: {type: string, description: High price}
+          l: {type: string, description: Low price}
+          c: {type: string, description: Last price}
+          w: {type: string, description: Weighted average price}
+          v: {type: string, description: Total traded base asset volume}
+          q: {type: string, description: Total traded quote asset volume}
+          O: {type: integer, description: Statistics open time}
+          C: {type: integer, description: Statistics close time}
+          F: {type: integer, description: First trade ID}
+          L: {type: integer, description: Last trade ID}
+          n: {type: integer, description: Total number of trades}
+    RollingWindowTickerArray:
+      name: allMarketRollingWindowTicker
+      title: All Market Rolling Window Ticker Statistics
+      contentType: application/json
+      payload:
+        type: array
+        items:
+          $ref: '#/components/messages/RollingWindowTicker/payload'
+    MiniTicker:
+      name: 24hrMiniTicker
+      title: 24hr Mini Ticker Statistics
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          e: {type: string, description: Event type, const: 24hrMiniTicker}
+          E: {type: integer, description: Event time (ms)}
+          s: {type: string, description: Symbol}
+          c: {type: string, description: Close price}
+          o: {type: string, description: Open price}
+          h: {type: string, description: High price}
+          l: {type: string, description: Low price}
+          v: {type: string, description: Total traded base asset volume}
+          q: {type: string, description: Total traded quote asset volume}
+    MiniTickerArray:
+      name: allMarketMiniTicker
+      title: All Market 24hr Mini Ticker Statistics
+      contentType: application/json
+      payload:
+        type: array
+        items:
+          $ref: '#/components/messages/MiniTicker/payload'
+    BookTicker:
+      name: bookTicker
+      title: Best Bid / Ask
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          u: {type: integer, description: Order book updateId}
+          s: {type: string, description: Symbol}
+          b: {type: string, description: Best bid price}
+          B: {type: string, description: Best bid quantity}
+          a: {type: string, description: Best ask price}
+          A: {type: string, description: Best ask quantity}
+    PartialDepth:
+      name: partialDepth
+      title: Partial Order Book Depth
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          lastUpdateId: {type: integer, description: Last update ID}
+          bids:
+            type: array
+            description: Bids to be updated as [price, quantity] pairs.
+            items:
+              type: array
+              items: {type: string}
+          asks:
+            type: array
+            description: Asks to be updated as [price, quantity] pairs.
+            items:
+              type: array
+              items: {type: string}
+    DepthUpdate:
+      name: depthUpdate
+      title: Order Book Depth Diff
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          e: {type: string, description: Event type, const: depthUpdate}
+          E: {type: integer, description: Event time (ms)}
+          s: {type: string, description: Symbol}
+          U: {type: integer, description: First update ID in event}
+          u: {type: integer, description: Final update ID in event}
+          b:
+            type: array
+            description: Bids to be updated as [price, quantity] pairs. Quantity 0 removes the price level.
+            items:
+              type: array
+              items: {type: string}
+          a:
+            type: array
+            description: Asks to be updated as [price, quantity] pairs. Quantity 0 removes the price level.
+            items:
+              type: array
+              items: {type: string}
+    OutboundAccountPosition:
+      name: outboundAccountPosition
+      title: Account Update
+      summary: >-
+        Sent any time an account balance changes; contains the assets possibly changed by the event that
+        generated the balance change.
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          e: {type: string, description: Event type, const: outboundAccountPosition}
+          E: {type: integer, description: Event time (ms)}
+          u: {type: integer, description: Time of last account update}
+          B:
+            type: array
+            description: Balances array
+            items:
+              type: object
+              properties:
+                a: {type: string, description: Asset}
+                f: {type: string, description: Free}
+                l: {type: string, description: Locked}
+    BalanceUpdate:
+      name: balanceUpdate
+      title: Balance Update
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          e: {type: string, description: Event type, const: balanceUpdate}
+          E: {type: integer, description: Event time (ms)}
+          a: {type: string, description: Asset}
+          d: {type: string, description: Balance delta}
+          T: {type: integer, description: Clear time (ms)}
+    ExecutionReport:
+      name: executionReport
+      title: Order Update
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          e: {type: string, description: Event type, const: executionReport}
+          E: {type: integer, description: Event time (ms)}
+          s: {type: string, description: Symbol}
+          c: {type: string, description: Client order ID}
+          S: {type: string, description: Side}
+          o: {type: string, description: Order type}
+          f: {type: string, description: Time in force}
+          q: {type: string, description: Order quantity}
+          p: {type: string, description: Order price}
+          P: {type: string, description: Stop price}
+          d: {type: integer, description: Trailing delta (trailing stop orders only)}
+          F: {type: string, description: Iceberg quantity}
+          g: {type: integer, description: OrderListId}
+          C: {type: string, description: Original client order ID (order being canceled)}
+          x: {type: string, description: Current execution type}
+          X: {type: string, description: Current order status}
+          r: {type: string, description: Order reject reason}
+          i: {type: integer, description: Order ID}
+          l: {type: string, description: Last executed quantity}
+          z: {type: string, description: Cumulative filled quantity}
+          L: {type: string, description: Last executed price}
+          n: {type: string, description: Commission amount}
+          N: {type: ['string','null'], description: Commission asset}
+          T: {type: integer, description: Transaction time (ms)}
+          t: {type: integer, description: Trade ID}
+          I: {type: integer, description: Ignore}
+          w: {type: boolean, description: 'Is the order on the book?'}
+          m: {type: boolean, description: 'Is this trade the maker side?'}
+          M: {type: boolean, description: Ignore}
+          O: {type: integer, description: Order creation time}
+          Z: {type: string, description: Cumulative quote asset transacted quantity}
+          Y: {type: string, description: Last quote asset transacted quantity}
+          Q: {type: string, description: Quote order quantity}
+          V: {type: string, description: Self-trade prevention mode}
+          D: {type: integer, description: Trailing time (appears if the trailing stop order is active)}
+          W: {type: integer, description: Working time (appears if the order is working on the book)}
+          u: {type: integer, description: tradeGroupId (appears if the order expired due to STP)}
+          v: {type: integer, description: preventedMatchId (appears if the order expired due to STP)}
+          U: {type: integer, description: counterOrderId (appears if the order expired due to STP)}

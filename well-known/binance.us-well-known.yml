@@ -1,0 +1,33 @@
+generated: '2026-08-07'
+method: searched
+source: live probes of the Binance.US website and API hosts
+hosts:
+- host: https://www.binance.us
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    file: binance.us-security.txt
+  - path: /.well-known/openid-configuration
+    status: 403
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+  - path: /.well-known/api-catalog
+    status: 403
+  - path: /.well-known/ai-plugin.json
+    status: 403
+  - path: /.well-known/agent-card.json
+    status: 403
+  - path: /.well-known/agent.json
+    status: 403
+- host: https://api.binance.us
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+notes: >-
+  Only the RFC 9116 security.txt is published. The 403 responses on www.binance.us are the CDN/WAF refusing
+  unknown /.well-known/* paths (application/xml error bodies), not agent or OAuth discovery documents — no
+  A2A agent card, OAuth/OIDC discovery document or API catalog is served on any Binance.US host. The API
+  host api.binance.us returns an honest 404 for the same paths.

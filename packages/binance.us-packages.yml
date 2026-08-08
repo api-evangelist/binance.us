@@ -1,0 +1,90 @@
+generated: '2026-08-07'
+method: searched
+source: npm, PyPI, RubyGems, crates.io, Packagist, pkg.go.dev and https://github.com/binance-us
+official_packages: 0
+packages: []
+finding: >-
+  Binance.US publishes NO first-party client libraries. Its GitHub organization (https://github.com/binance-us)
+  contains a single public repository — binance-us-api-docs, the markdown source of the documentation — and no
+  SDK. The documentation ships Shell (curl) and Python (requests) code samples inline but points at no client
+  library. Every package on the public registries that targets api.binance.us is third-party, so no SDKs
+  pointer is emitted for this provider.
+first_party:
+  github_org: https://github.com/binance-us
+  repositories:
+  - name: binance-us-api-docs
+    url: https://github.com/binance-us/binance-us-api-docs
+    description: Official Documentation for the Binance US APIs and Streams
+    language: markdown
+    stars: 414
+    last_push: '2024-06-17'
+    contains_sdk: false
+    files:
+    - README.md
+    - CHANGELOG.md
+    - errors.md
+    - filters.md
+    - rest-api.md
+    - user-data-stream.md
+    - wapi-api.md
+    - web-socket-api.md
+    - web-socket-streams.md
+    - faqs/stp_faq.md
+    - faqs/trailing-stop-faq.md
+third_party:
+  note: >-
+    Recorded for discovery only. None of these are maintained by Binance.US and none should be treated as an
+    official SDK.
+  packages:
+  - language: python
+    registry: pypi
+    name: binance-us
+    url: https://pypi.org/project/binance-us/
+    repository: https://github.com/nikhilxsunder/binance-us
+    official: false
+  - language: javascript
+    registry: npm
+    name: binance-us
+    url: https://www.npmjs.com/package/binance-us
+    official: false
+  - language: javascript
+    registry: npm
+    name: node-binance-us-api
+    url: https://www.npmjs.com/package/node-binance-us-api
+    repository: https://github.com/tdeineka/node-binance-us-api
+    official: false
+  - language: javascript
+    registry: npm
+    name: '@nirholas/binance-us-mcp-server'
+    url: https://www.npmjs.com/package/@nirholas/binance-us-mcp-server
+    repository: https://github.com/nirholas/universal-crypto-mcp
+    description: Third-party MCP server for Binance.US — not published or endorsed by Binance.US.
+    official: false
+registries_probed:
+- registry: npm
+  result: no first-party package
+- registry: pypi
+  result: no first-party package
+- registry: rubygems
+  result: no first-party package
+- registry: crates.io
+  result: 0 results for binance-us
+- registry: packagist
+  result: 0 results for binance-us
+- registry: pkg.go.dev
+  result: no first-party module
+- registry: maven-central
+  result: no first-party artifact
+- registry: nuget
+  result: no first-party package
+x-evidence:
+  fetched: '2026-08-07'
+  evidence:
+  - url: https://api.github.com/orgs/binance-us
+    http_status: 200
+  - url: https://api.github.com/orgs/binance-us/repos
+    http_status: 200
+  - url: https://registry.npmjs.org/-/v1/search?text=binance.us
+    http_status: 200
+  - url: https://crates.io/api/v1/crates?q=binance-us
+    http_status: 200
