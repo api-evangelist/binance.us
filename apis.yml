@@ -1,23 +1,184 @@
 aid: binance.us
-name: Binance.us
-description: 'Binance.us is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+name: Binance.US
+description: >-
+  Binance.US (operated by BAM Trading Services, Inc.) is a U.S.-regulated digital asset marketplace offering
+  spot trading, staking, OTC and custodial services across 100+ cryptocurrencies. Its public developer
+  program exposes a signed REST API at api.binance.us covering exchange and system information, market and
+  trade data, user account data, spot order management (including OCO and cancel-replace), wallet deposits
+  and withdrawals, dust conversion, referrals, staking, OTC quoting, Custodial Solution and Credit Line
+  endpoints, plus a functionally equivalent WebSocket API and real-time WebSocket market-data and user-data
+  streams. Authentication is HMAC SHA-256 request signing with an X-MBX-APIKEY header, and the platform
+  publishes a full error-code registry, symbol/exchange filter rules, weighted IP and order rate limits, and
+  a dated changelog in its official GitHub documentation repository.
 url: https://raw.githubusercontent.com/api-evangelist/binance.us/refs/heads/main/apis.yml
+image: https://public.cstatic.us/static/images/binance_previewImage.png
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-07'
 modified: '2026-08-07'
 tags:
 - Company
-apis: []
+- Cryptocurrency
+- Digital Assets
+- Exchange
+- Trading
+- Market Data
+- Financial Services
+- WebSocket
+- Custody
+- Staking
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+apis:
+- aid: binance.us:rest-api
+  name: Binance.US REST API
+  description: >-
+    The Binance.US REST API is the primary programmatic interface to the exchange. It exposes general system
+    and exchange information, market and trade data (recent/aggregate/historical trades, order book depth,
+    klines, ticker and rolling-window price statistics), user account data, sub-account data, spot trade order
+    management including OCO and cancel-replace, OTC quoting and order placement, wallet deposits and
+    withdrawals, dust conversion, referral reward history, staking, Custodial Solution endpoints, Credit Line
+    endpoints and API Partner endpoints. Public endpoints are unauthenticated; TRADE and USER_DATA endpoints
+    require an API key plus an HMAC SHA-256 signature and a millisecond timestamp bounded by recvWindow.
+  humanURL: https://docs.binance.us/#rest-api
+  baseURL: https://api.binance.us
+  image: https://public.cstatic.us/static/images/binance_previewImage.png
+  tags:
+  - Cryptocurrency
+  - Exchange
+  - Trading
+  - Market Data
+  - Wallet
+  - REST
+  properties:
+  - type: Documentation
+    url: https://docs.binance.us/#rest-api
+  - type: APIReference
+    url: https://docs.binance.us/#rest-api
+  - type: Authentication
+    url: authentication/binance.us-authentication.yml
+  - type: ErrorCatalog
+    url: errors/binance.us-error-codes.yml
+  - type: RateLimits
+    url: rate-limits/binance.us-rate-limits.yml
+  - type: Conventions
+    url: conventions/binance.us-conventions.yml
+- aid: binance.us:websocket-api
+  name: Binance.US WebSocket API
+  description: >-
+    The Binance.US WebSocket API is a request/response API delivered over a persistent WebSocket connection at
+    wss://ws-api.binance.us/ws-api/v3. It is functionally equivalent to the REST API — the same parameters,
+    the same status and error codes — but offers lower latency for time-sensitive trading. It covers general
+    requests, market data requests, trading requests (place/test/query/cancel/replace orders and OCO), account
+    requests, and user data stream lifecycle requests. SIGNED (TRADE and USER_DATA) requests use the same
+    HMAC SHA-256 signature and timing rules as the REST API.
+  humanURL: https://docs.binance.us/#websocket-api
+  baseURL: wss://ws-api.binance.us/ws-api/v3
+  image: https://public.cstatic.us/static/images/binance_previewImage.png
+  tags:
+  - Cryptocurrency
+  - Exchange
+  - Trading
+  - Real-Time
+  - WebSocket
+  properties:
+  - type: Documentation
+    url: https://docs.binance.us/#websocket-api
+  - type: AsyncAPI
+    url: asyncapi/binance.us-websocket-api-asyncapi.yml
+- aid: binance.us:websocket-streams
+  name: Binance.US WebSocket Streams
+  description: >-
+    Binance.US WebSocket Streams deliver real-time market data and account events over persistent WebSocket
+    connections at wss://stream.binance.us:9443. Market data streams include aggregate trade, raw trade,
+    kline/candlestick, individual and all-market mini-ticker, 24h ticker, rolling-window statistics, book
+    ticker, partial order book depth and diff depth streams. User data streams — opened with a listenKey from
+    the REST API — push outboundAccountPosition, balanceUpdate, executionReport and listStatus events. Streams
+    can be consumed raw at /ws/streamName or combined at /stream?streams=, with SUBSCRIBE, UNSUBSCRIBE,
+    LIST_SUBSCRIPTIONS, SET_PROPERTY and GET_PROPERTY control messages.
+  humanURL: https://docs.binance.us/#websocket-streams
+  baseURL: wss://stream.binance.us:9443
+  image: https://public.cstatic.us/static/images/binance_previewImage.png
+  tags:
+  - Cryptocurrency
+  - Market Data
+  - Real-Time
+  - Streaming
+  - WebSocket
+  properties:
+  - type: Documentation
+    url: https://docs.binance.us/#websocket-streams
+  - type: AsyncAPI
+    url: asyncapi/binance.us-websocket-streams-asyncapi.yml
 common:
+- type: TrustCenter
+  url: security/binance.us-trust-center.yml
+- type: VulnerabilityDisclosure
+  url: security/binance.us-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/binance.us-domain-security.yml
 - type: Website
-  url: https://www.hiive.com/securities/binance.us-stock
+  url: https://www.binance.us
+- type: DeveloperPortal
+  url: https://docs.binance.us/
+- type: Documentation
+  url: https://docs.binance.us/
+- type: APIReference
+  url: https://docs.binance.us/#rest-api
+- type: GettingStarted
+  url: https://docs.binance.us/#introduction
+- type: Support
+  url: https://support.binance.us/en
+- type: Blog
+  url: https://blog.binance.us/
+- type: GitHubOrganization
+  url: https://github.com/binance-us
+- type: Pricing
+  url: https://www.binance.us/fees
+- type: SignUp
+  url: https://www.binance.us/register
+- type: Login
+  url: https://www.binance.us/login
+- type: TermsOfService
+  url: https://www.binance.us/terms-of-use
+- type: PrivacyPolicy
+  url: https://www.binance.us/privacy-policy
+- type: StatusPage
+  url: https://www.binance.us/status
+- type: Compliance
+  url: https://www.binance.us/compliance
+- type: Security
+  url: https://www.binance.us/.well-known/security.txt
+- type: SecurityTxt
+  url: well-known/binance.us-security.txt
+- type: WellKnown
+  url: well-known/binance.us-well-known.yml
+- type: Authentication
+  url: authentication/binance.us-authentication.yml
+- type: Conventions
+  url: conventions/binance.us-conventions.yml
+- type: ErrorCatalog
+  url: errors/binance.us-error-codes.yml
+- type: RateLimits
+  url: rate-limits/binance.us-rate-limits.yml
+- type: Lifecycle
+  url: lifecycle/binance.us-lifecycle.yml
+- type: ChangeLog
+  url: changelog/binance.us-changelog.yml
+- type: Conformance
+  url: conformance/binance.us-conformance.yml
+- type: Packages
+  url: packages/binance.us-packages.yml
+- type: LLMsTxt
+  url: llms/binance.us-llms.txt
+- type: AsyncAPI
+  url: asyncapi/binance.us-websocket-streams-asyncapi.yml
+x-enrichment:
+  date: '2026-08-07'
+  status: enriched
+  artifacts_added: 16
+  pass: local-v1
