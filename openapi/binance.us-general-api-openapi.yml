@@ -1,0 +1,1004 @@
+openapi: 3.2.0
+info:
+  title: Binance.US General API
+  version: derived-2026-08-10
+  description: Derived from Binance.US's published documentation. Every operation in this document corresponds to a literal HTTP method and path found in that documentation; nothing is inferred. Request and response schemas are NOT described -- only the operations that are demonstrably documented.
+  x-provenance: derived-from-documentation
+  x-source-documentation: https://docs.binance.us/
+  x-documentation-url: https://docs.binance.us/
+  x-derived: '2026-08-10'
+  x-derivation-method: literal METHOD+path extraction from provider documentation; no pattern completion, no inferred operations
+  x-not-a-provider-contract: This is API Evangelist's reading of the documentation, not a contract published or endorsed by the provider.
+servers:
+- url: https://api.binance.us
+tags:
+- name: General
+paths:
+  /api/v3/order/cancelReplace:
+    post:
+      summary: Create cancelReplace
+      tags:
+      - General
+      operationId: post_api_v3_order_cancelReplace
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2026
+      x-source-context: <td><code>POST /api/v3/order/cancelReplace</code> is not enabled for the symbol.</td>
+  /api/v3/exchangeInfo:
+    get:
+      summary: Retrieve exchangeInfo
+      tags:
+      - General
+      operationId: get_api_v3_exchangeInfo
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2104
+      x-source-context: <li>Symbol permission data in <code>GET /api/v3/exchangeInfo</code> has moved from <code>permissions</code> to <code>permissionSets</code>. The <code>permission
+  /api/v3/order:
+    post:
+      summary: Create order
+      tags:
+      - General
+      operationId: post_api_v3_order
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2106
+      x-source-context: <li>Order placement responses now include an <code>expiryReason</code> field explaining why an order expired. It is returned only when <code>newOrderRespType</c
+    delete:
+      summary: Delete order
+      tags:
+      - General
+      operationId: delete_api_v3_order
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2298
+      x-source-context: '<li>Changes to <code>DELETE /api/v3/order</code> and <code>POST /api/v3/order/cancelReplace</code>:'
+    get:
+      summary: Retrieve order
+      tags:
+      - General
+      operationId: get_api_v3_order
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2385
+      x-source-context: <li><code>GET /api/v3/order</code></li>
+  /api/v3/order/oco:
+    post:
+      summary: Create oco
+      tags:
+      - General
+      operationId: post_api_v3_order_oco
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2106
+      x-source-context: <li>Order placement responses now include an <code>expiryReason</code> field explaining why an order expired. It is returned only when <code>newOrderRespType</c
+  /api/v3/trades:
+    get:
+      summary: Retrieve trades
+      tags:
+      - General
+      operationId: get_api_v3_trades
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2113
+      x-source-context: <li><code>GET /api/v3/trades</code> and <code>GET /api/v3/historicalTrades</code> weight raised to 25.</li>
+  /api/v3/historicalTrades:
+    get:
+      summary: Retrieve historicalTrades
+      tags:
+      - General
+      operationId: get_api_v3_historicalTrades
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2113
+      x-source-context: <li><code>GET /api/v3/trades</code> and <code>GET /api/v3/historicalTrades</code> weight raised to 25.</li>
+  /api/v3/aggTrades:
+    get:
+      summary: Retrieve aggTrades
+      tags:
+      - General
+      operationId: get_api_v3_aggTrades
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2114
+      x-source-context: <li><code>GET /api/v3/aggTrades</code> weight raised to 4.</li>
+  /api/v3/myTrades:
+    get:
+      summary: Retrieve myTrades
+      tags:
+      - General
+      operationId: get_api_v3_myTrades
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2115
+      x-source-context: <li><code>GET /api/v3/myTrades</code> weight is now 20 with the <code>symbol</code>, or 5 when <code>orderId</code> is provided.</li>
+  /api/v3/depth:
+    get:
+      summary: Retrieve depth
+      tags:
+      - General
+      operationId: get_api_v3_depth
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2116
+      x-source-context: '<li><code>GET /api/v3/depth</code> weight per limit tier increased: 1–100 → 5, 101–500 → 25, 501–1000 → 50, 1001–5000 → 250.</li>'
+  /api/v3/myFilters:
+    get:
+      summary: Retrieve myFilters
+      tags:
+      - General
+      operationId: get_api_v3_myFilters
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2133
+      x-source-context: <li>A new <code>MAX_ASSET</code> filter defines the maximum quantity of an asset an account may transact in a single order. When the asset is the symbol&#39;s b
+  /sapi/v1/otc/orders:
+    post:
+      summary: Create orders
+      tags:
+      - General
+      operationId: post_sapi_v1_otc_orders
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2141
+      x-source-context: '<li><code>Place OTC Trade Order</code> (<code>POST /sapi/v1/otc/orders</code>): added a Response Fields table. The synchronous response always returns <code>ord'
+    get:
+      summary: Retrieve orders
+      tags:
+      - General
+      operationId: get_sapi_v1_otc_orders
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2142
+      x-source-context: <li><code>Get OTC Trade Order</code> (<code>GET /sapi/v1/otc/orders/{orderId}</code>) and <code>Get All OTC Trade Orders</code> (<code>GET /sapi/v1/otc/orders</
+  /sapi/v1/otc/orders/{orderId}:
+    get:
+      summary: Retrieve orderId
+      tags:
+      - General
+      operationId: get_sapi_v1_otc_orders_orderId
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2141
+      x-source-context: '<li><code>Place OTC Trade Order</code> (<code>POST /sapi/v1/otc/orders</code>): added a Response Fields table. The synchronous response always returns <code>ord'
+      parameters:
+      - name: orderId
+        in: path
+        required: true
+        schema:
+          type: string
+  /sapi/v1/ocbs/orders:
+    get:
+      summary: Retrieve orders
+      tags:
+      - General
+      operationId: get_sapi_v1_ocbs_orders
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2143
+      x-source-context: '<li><code>Get All OCBS Trade Orders</code> (<code>GET /sapi/v1/ocbs/orders</code>): added a Response Fields table. <code>orderStatus</code> can be <code>PROCESS'
+  /sapi/v1/otc/quotes:
+    post:
+      summary: Create quotes
+      tags:
+      - General
+      operationId: post_sapi_v1_otc_quotes
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2151
+      x-source-context: '<li><code>Request for Quote</code> (<code>POST /sapi/v1/otc/quotes</code>): documented that <code>quoteId</code> is only returned when the user has sufficient <'
+  /sapi/v1/fiatpayment/withdraw/apply:
+    post:
+      summary: Create apply
+      tags:
+      - General
+      operationId: post_sapi_v1_fiatpayment_withdraw_apply
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2157
+      x-source-context: <li><code>POST /sapi/v1/fiatpayment/withdraw/apply</code> now accepts either a <code>paymentMethodId</code> or a linked bank account number in <code>paymentAcco
+  /api/v3/klines:
+    get:
+      summary: Retrieve klines
+      tags:
+      - General
+      operationId: get_api_v3_klines
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2275
+      x-source-context: <li><code>GET /api/v3/klines</code></li>
+  /api/v3/allOrderList:
+    get:
+      summary: Retrieve allOrderList
+      tags:
+      - General
+      operationId: get_api_v3_allOrderList
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2276
+      x-source-context: <li><code>GET /api/v3/allOrderList</code></li>
+  /api/v3/allOrders:
+    get:
+      summary: Retrieve allOrders
+      tags:
+      - General
+      operationId: get_api_v3_allOrders
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2277
+      x-source-context: <li><code>GET /api/v3/allOrders</code></li>
+  /api/v3/myPreventedMatches:
+    get:
+      summary: Retrieve myPreventedMatches
+      tags:
+      - General
+      operationId: get_api_v3_myPreventedMatches
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2353
+      x-source-context: <li><code>GET /api/v3/myPreventedMatches</code> - This queries the orders that expired due to STP
+  /api/v3/openOrders:
+    get:
+      summary: Retrieve openOrders
+      tags:
+      - General
+      operationId: get_api_v3_openOrders
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2386
+      x-source-context: <li><code>GET /api/v3/openOrders</code></li>
+    delete:
+      summary: Delete openOrders
+      tags:
+      - General
+      operationId: delete_api_v3_openOrders
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L6580
+      x-source-context: <p><code>DELETE /api/v3/openOrders (HMAC SHA256)</code></p>
+  /api/v3/account:
+    get:
+      summary: Retrieve account
+      tags:
+      - General
+      operationId: get_api_v3_account
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2389
+      x-source-context: <li><p>New field <code>tradeGroupId</code> will appear in the <code>GET /api/v3/account</code> response.</p></li>
+  /api/v3/acccount:
+    get:
+      summary: Retrieve acccount
+      tags:
+      - General
+      operationId: get_api_v3_acccount
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2449
+      x-source-context: <li>commissionRates field will appear in the GET /api/v3/acccount response.</li>
+  /api/v3/order/test:
+    post:
+      summary: Create test
+      tags:
+      - General
+      operationId: post_api_v3_order_test
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2495
+      x-source-context: '<li><strong>Enabled trailing stop order:</strong> Updated three endpoints: POST /api/v3/order, POST /api/v3/order/test, POST /api/v3/order/oco, and added one ne'
+  /api/v3/ticker:
+    get:
+      summary: Retrieve ticker
+      tags:
+      - General
+      operationId: get_api_v3_ticker
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2498
+      x-source-context: '<li><strong>Market Data:</strong> Added a new optional parameter type in two endpoints: GET /api/v3/ticker and GET /api/v3/ticker/24hr. Also removed Individual '
+  /api/v3/ticker/24hr:
+    get:
+      summary: Retrieve 24hr
+      tags:
+      - General
+      operationId: get_api_v3_ticker_24hr
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2498
+      x-source-context: '<li><strong>Market Data:</strong> Added a new optional parameter type in two endpoints: GET /api/v3/ticker and GET /api/v3/ticker/24hr. Also removed Individual '
+  /api/v3/ping:
+    get:
+      summary: Retrieve ping
+      tags:
+      - General
+      operationId: get_api_v3_ping
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2874
+      x-source-context: <p><code>GET /api/v3/ping</code></p>
+  /api/v3/time:
+    get:
+      summary: Retrieve time
+      tags:
+      - General
+      operationId: get_api_v3_time
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2901
+      x-source-context: <p><code>GET /api/v3/time</code></p>
+  /sapi/v1/system/status:
+    get:
+      summary: Retrieve status
+      tags:
+      - General
+      operationId: get_sapi_v1_system_status
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L2979
+      x-source-context: <p><code>GET /sapi/v1/system/status (HMAC SHA256)</code></p>
+  /api/v3/ticker/price:
+    get:
+      summary: Retrieve price
+      tags:
+      - General
+      operationId: get_api_v3_ticker_price
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L3553
+      x-source-context: <p><code>GET /api/v3/ticker/price</code></p>
+  /api/v3/avgPrice:
+    get:
+      summary: Retrieve avgPrice
+      tags:
+      - General
+      operationId: get_api_v3_avgPrice
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L3627
+      x-source-context: <p><code>GET /api/v3/avgPrice</code></p>
+  /api/v3/ticker/bookTicker:
+    get:
+      summary: Retrieve bookTicker
+      tags:
+      - General
+      operationId: get_api_v3_ticker_bookTicker
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L3706
+      x-source-context: <p><code>GET /api/v3/ticker/bookTicker</code></p>
+  /sapi/v3/apiTradingStatus:
+    get:
+      summary: Retrieve apiTradingStatus
+      tags:
+      - General
+      operationId: get_sapi_v3_apiTradingStatus
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L4423
+      x-source-context: <p><code>GET /sapi/v3/apiTradingStatus (HMAC SHA256)</code></p>
+  /sapi/v1/asset/assetDistributionHistory:
+    get:
+      summary: Retrieve assetDistributionHistory
+      tags:
+      - General
+      operationId: get_sapi_v1_asset_assetDistributionHistory
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L4536
+      x-source-context: <p><code>GET /sapi/v1/asset/assetDistributionHistory (HMAC SHA256)</code></p>
+  /sapi/v1/asset/query/trading-fee:
+    get:
+      summary: Retrieve trading fee
+      tags:
+      - General
+      operationId: get_sapi_v1_asset_query_trading_fee
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L4661
+      x-source-context: <p><code>GET /sapi/v1/asset/query/trading-fee (HMAC SHA256)</code></p>
+  /sapi/v1/asset/query/trading-volume:
+    get:
+      summary: Retrieve trading volume
+      tags:
+      - General
+      operationId: get_sapi_v1_asset_query_trading_volume
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L4748
+      x-source-context: <p><code>GET /sapi/v1/asset/query/trading-volume (HMAC SHA256)</code></p>
+  /sapi/v3/sub-account/list:
+    get:
+      summary: Retrieve list
+      tags:
+      - General
+      operationId: get_sapi_v3_sub_account_list
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L4842
+      x-source-context: <p><code>GET /sapi/v3/sub-account/list (HMAC SHA256)</code></p>
+  /sapi/v3/sub-account/transfer/history:
+    get:
+      summary: Retrieve history
+      tags:
+      - General
+      operationId: get_sapi_v3_sub_account_transfer_history
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L4973
+      x-source-context: <p><code>GET /sapi/v3/sub-account/transfer/history (HMAC SHA256)</code></p>
+  /sapi/v3/sub-account/transfer:
+    post:
+      summary: Create transfer
+      tags:
+      - General
+      operationId: post_sapi_v3_sub_account_transfer
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L5109
+      x-source-context: <p><code>POST /sapi/v3/sub-account/transfer(HMAC SHA256)</code></p>
+  /sapi/v3/sub-account/assets:
+    get:
+      summary: Retrieve assets
+      tags:
+      - General
+      operationId: get_sapi_v3_sub_account_assets
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L5256
+      x-source-context: <p><code>GET /sapi/v3/sub-account/assets (HMAC SHA256)</code></p>
+  /api/v3/rateLimit/order:
+    get:
+      summary: Retrieve order
+      tags:
+      - General
+      operationId: get_api_v3_rateLimit_order
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L5619
+      x-source-context: <p><code>GET /api/v3/rateLimit/order (HMAC SHA256)</code></p>
+  /api/v3/orderList:
+    get:
+      summary: Retrieve orderList
+      tags:
+      - General
+      operationId: get_api_v3_orderList
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L7854
+      x-source-context: <p><code>GET /api/v3/orderList (HMAC SHA256)</code></p>
+    delete:
+      summary: Delete orderList
+      tags:
+      - General
+      operationId: delete_api_v3_orderList
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L8300
+      x-source-context: <p><code>DELETE /api/v3/orderList (HMAC SHA256)</code></p>
+  /api/v3/openOrderList:
+    get:
+      summary: Retrieve openOrderList
+      tags:
+      - General
+      operationId: get_api_v3_openOrderList
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L8144
+      x-source-context: <p><code>GET /api/v3/openOrderList (HMAC SHA256)</code></p>
+  /sapi/v1/otc/coinPairs:
+    get:
+      summary: Retrieve coinPairs
+      tags:
+      - General
+      operationId: get_sapi_v1_otc_coinPairs
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L8442
+      x-source-context: <p><code>GET /sapi/v1/otc/coinPairs (HMAC SHA256)</code></p>
+  /sapi/v1/capital/config/getall:
+    get:
+      summary: Retrieve getall
+      tags:
+      - General
+      operationId: get_sapi_v1_capital_config_getall
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L9646
+      x-source-context: <p><code>GET  /sapi/v1/capital/config/getall (HMAC SHA256)</code></p>
+  /sapi/v1/capital/withdraw/apply:
+    post:
+      summary: Create apply
+      tags:
+      - General
+      operationId: post_sapi_v1_capital_withdraw_apply
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L9901
+      x-source-context: <p><code>POST /sapi/v1/capital/withdraw/apply (HMAC SHA256)</code></p>
+  /sapi/v1/capital/withdraw/history:
+    get:
+      summary: Retrieve history
+      tags:
+      - General
+      operationId: get_sapi_v1_capital_withdraw_history
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L10044
+      x-source-context: <p><code>GET /sapi/v1/capital/withdraw/history (HMAC SHA256)</code></p>
+  /sapi/v1/fiatpayment/query/withdraw/history:
+    get:
+      summary: Retrieve history
+      tags:
+      - General
+      operationId: get_sapi_v1_fiatpayment_query_withdraw_history
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L10194
+      x-source-context: <p><code>GET /sapi/v1/fiatpayment/query/withdraw/history (HMAC SHA256)</code></p>
+  /sapi/v1/capital/deposit/address:
+    get:
+      summary: Retrieve address
+      tags:
+      - General
+      operationId: get_sapi_v1_capital_deposit_address
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L10342
+      x-source-context: <p><code>GET  /sapi/v1/capital/deposit/address (HMAC SHA256)</code></p>
+  /sapi/v1/capital/deposit/hisrec:
+    get:
+      summary: Retrieve hisrec
+      tags:
+      - General
+      operationId: get_sapi_v1_capital_deposit_hisrec
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L10462
+      x-source-context: <p><code>GET /sapi/v1/capital/deposit/hisrec (HMAC SHA256)</code></p>
+  /sapi/v1/fiatpayment/query/deposit/history:
+    get:
+      summary: Retrieve history
+      tags:
+      - General
+      operationId: get_sapi_v1_fiatpayment_query_deposit_history
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L10607
+      x-source-context: <p><code>GET /sapi/v1/fiatpayment/query/deposit/history (HMAC SHA256)</code></p>
+  /sapi/v1/capital/sub-account/deposit/address:
+    get:
+      summary: Retrieve address
+      tags:
+      - General
+      operationId: get_sapi_v1_capital_sub_account_deposit_address
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L10754
+      x-source-context: <p><code>GET /sapi/v1/capital/sub-account/deposit/address (HMAC SHA256)</code></p>
+  /sapi/v1/capital/sub-account/deposit/history:
+    get:
+      summary: Retrieve history
+      tags:
+      - General
+      operationId: get_sapi_v1_capital_sub_account_deposit_history
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L10870
+      x-source-context: <p><code>GET /sapi/v1/capital/sub-account/deposit/history (HMAC SHA256)</code></p>
+  /sapi/v1/asset/dust:
+    post:
+      summary: Create dust
+      tags:
+      - General
+      operationId: post_sapi_v1_asset_dust
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L11016
+      x-source-context: <p><code>POST /sapi/v1/asset/dust (HMAC SHA256)</code></p>
+  /sapi/v1/asset/query/dust-logs:
+    get:
+      summary: Retrieve dust logs
+      tags:
+      - General
+      operationId: get_sapi_v1_asset_query_dust_logs
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L11130
+      x-source-context: <p><code>GET /sapi/v1/asset/query/dust-logs (HMAC SHA256)</code></p>
+  /sapi/v1/asset/query/dust-assets:
+    get:
+      summary: Retrieve dust assets
+      tags:
+      - General
+      operationId: get_sapi_v1_asset_query_dust_assets
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L11254
+      x-source-context: <p><code>GET /sapi/v1/asset/query/dust-assets (HMAC SHA256)</code></p>
+  /sapi/v1/marketing/referral/reward/history:
+    get:
+      summary: Retrieve history
+      tags:
+      - General
+      operationId: get_sapi_v1_marketing_referral_reward_history
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L11364
+      x-source-context: <p><code>GET /sapi/v1/marketing/referral/reward/history (HMAC SHA256)</code></p>
+  /sapi/v1/staking/stakingBalance:
+    get:
+      summary: Retrieve stakingBalance
+      tags:
+      - General
+      operationId: get_sapi_v1_staking_stakingBalance
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L11803
+      x-source-context: <p><code>GET /sapi/v1/staking/stakingBalance (HMAC SHA256)</code></p>
+  /sapi/v1/staking/stakingRewardsHistory:
+    get:
+      summary: Retrieve stakingRewardsHistory
+      tags:
+      - General
+      operationId: get_sapi_v1_staking_stakingRewardsHistory
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L12044
+      x-source-context: <p><code>GET /sapi/v1/staking/stakingRewardsHistory (HMAC SHA256)</code></p>
+  /sapi/v1/custodian/balance:
+    get:
+      summary: Retrieve balance
+      tags:
+      - General
+      operationId: get_sapi_v1_custodian_balance
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L12185
+      x-source-context: <p><code>GET /sapi/v1/custodian/balance (HMAC SHA256)</code></p>
+  /sapi/v1/custodian/supportedAssetList:
+    get:
+      summary: Retrieve supportedAssetList
+      tags:
+      - General
+      operationId: get_sapi_v1_custodian_supportedAssetList
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L12317
+      x-source-context: <p><code>GET /sapi/v1/custodian/supportedAssetList (HMAC SHA256)</code></p>
+  /sapi/v1/custodian/walletTransfer:
+    post:
+      summary: Create walletTransfer
+      tags:
+      - General
+      operationId: post_sapi_v1_custodian_walletTransfer
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L12435
+      x-source-context: <p><code>POST /sapi/v1/custodian/walletTransfer (HMAC SHA256)</code></p>
+  /sapi/v1/custodian/custodianTransfer:
+    post:
+      summary: Create custodianTransfer
+      tags:
+      - General
+      operationId: post_sapi_v1_custodian_custodianTransfer
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L12574
+      x-source-context: <p><code>POST /sapi/v1/custodian/custodianTransfer (HMAC SHA256)</code></p>
+  /sapi/v1/custodian/undoTransfer:
+    post:
+      summary: Create undoTransfer
+      tags:
+      - General
+      operationId: post_sapi_v1_custodian_undoTransfer
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L12704
+      x-source-context: <p><code>POST /sapi/v1/custodian/undoTransfer (HMAC SHA256)</code></p>
+  /sapi/v1/custodian/walletTransferHistory:
+    get:
+      summary: Retrieve walletTransferHistory
+      tags:
+      - General
+      operationId: get_sapi_v1_custodian_walletTransferHistory
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L12824
+      x-source-context: <p><code>GET /sapi/v1/custodian/walletTransferHistory (HMAC SHA256)</code></p>
+  /sapi/v1/custodian/custodianTransferHistory:
+    get:
+      summary: Retrieve custodianTransferHistory
+      tags:
+      - General
+      operationId: get_sapi_v1_custodian_custodianTransferHistory
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L12982
+      x-source-context: <p><code>GET /sapi/v1/custodian/custodianTransferHistory (HMAC SHA256)</code></p>
+  /sapi/v1/custodian/order:
+    post:
+      summary: Create order
+      tags:
+      - General
+      operationId: post_sapi_v1_custodian_order
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L13167
+      x-source-context: <p><code>POST /sapi/v1/custodian/order (HMAC SHA256)</code></p>
+    get:
+      summary: Retrieve order
+      tags:
+      - General
+      operationId: get_sapi_v1_custodian_order
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L13804
+      x-source-context: <p><code>GET /sapi/v1/custodian/order (HMAC SHA256)</code></p>
+  /sapi/v1/custodian/ocoOrder:
+    post:
+      summary: Create ocoOrder
+      tags:
+      - General
+      operationId: post_sapi_v1_custodian_ocoOrder
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L13460
+      x-source-context: <p><code>POST /sapi/v1/custodian/ocoOrder (HMAC SHA256)</code></p>
+  /sapi/v1/custodian/openOrders:
+    get:
+      summary: Retrieve openOrders
+      tags:
+      - General
+      operationId: get_sapi_v1_custodian_openOrders
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L13669
+      x-source-context: <p><code>GET /sapi/v1/custodian/openOrders (HMAC SHA256)</code></p>
+  /sapi/v1/custodian/orderHistory:
+    get:
+      summary: Retrieve orderHistory
+      tags:
+      - General
+      operationId: get_sapi_v1_custodian_orderHistory
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L13940
+      x-source-context: <p><code>GET /sapi/v1/custodian/orderHistory (HMAC SHA256)</code></p>
+  /sapi/v1/custodian/tradeHistory:
+    get:
+      summary: Retrieve tradeHistory
+      tags:
+      - General
+      operationId: get_sapi_v1_custodian_tradeHistory
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L14100
+      x-source-context: <p><code>GET /sapi/v1/custodian/tradeHistory (HMAC SHA256)</code></p>
+  /sapi/v1/custodian/cancelOrder:
+    delete:
+      summary: Delete cancelOrder
+      tags:
+      - General
+      operationId: delete_sapi_v1_custodian_cancelOrder
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L14256
+      x-source-context: <p><code>DELETE /sapi/v1/custodian/cancelOrder (HMAC SHA256)</code></p>
+  /sapi/v1/custodian/cancelOrdersBySymbol:
+    delete:
+      summary: Delete cancelOrdersBySymbol
+      tags:
+      - General
+      operationId: delete_sapi_v1_custodian_cancelOrdersBySymbol
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L14394
+      x-source-context: <p><code>DELETE /sapi/v1/custodian/cancelOrdersBySymbol (HMAC SHA256)</code></p>
+  /sapi/v1/custodian/cancelOcoOrder:
+    delete:
+      summary: Delete cancelOcoOrder
+      tags:
+      - General
+      operationId: delete_sapi_v1_custodian_cancelOcoOrder
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L14555
+      x-source-context: <p><code>DELETE /sapi/v1/custodian/cancelOcoOrder (HMAC SHA256)</code></p>
+  /sapi/v1/custodian/settlementSetting:
+    get:
+      summary: Retrieve settlementSetting
+      tags:
+      - General
+      operationId: get_sapi_v1_custodian_settlementSetting
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L14687
+      x-source-context: <p><code>GET /sapi/v1/custodian/settlementSetting (HMAC SHA256)</code></p>
+  /sapi/v1/custodian/settlementHistory:
+    get:
+      summary: Retrieve settlementHistory
+      tags:
+      - General
+      operationId: get_sapi_v1_custodian_settlementHistory
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L14823
+      x-source-context: <p><code>GET /sapi/v1/custodian/settlementHistory (HMAC SHA256)</code></p>
+  /sapi/v2/cl/account:
+    get:
+      summary: Retrieve account
+      tags:
+      - General
+      operationId: get_sapi_v2_cl_account
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L14971
+      x-source-context: <p><code>GET /sapi/v2/cl/account</code></p>
+  /sapi/v2/cl/alertHistory:
+    get:
+      summary: Retrieve alertHistory
+      tags:
+      - General
+      operationId: get_sapi_v2_cl_alertHistory
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L15132
+      x-source-context: <p><code>GET /sapi/v2/cl/alertHistory</code></p>
+  /sapi/v1/cl/transferHistory:
+    get:
+      summary: Retrieve transferHistory
+      tags:
+      - General
+      operationId: get_sapi_v1_cl_transferHistory
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L15268
+      x-source-context: <p><code>GET /sapi/v1/cl/transferHistory</code></p>
+  /sapi/v1/cl/transfer:
+    post:
+      summary: Create transfer
+      tags:
+      - General
+      operationId: post_sapi_v1_cl_transfer
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L15408
+      x-source-context: <p><code>POST /sapi/v1/cl/transfer</code></p>
+  /sapi/v1/apipartner/checkEligibility:
+    get:
+      summary: Retrieve checkEligibility
+      tags:
+      - General
+      operationId: get_sapi_v1_apipartner_checkEligibility
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L15526
+      x-source-context: <p><code>GET /sapi/v1/apipartner/checkEligibility (HMAC SHA256)</code></p>
+  /sapi/v1/apipartner/rebateHistory:
+    get:
+      summary: Retrieve rebateHistory
+      tags:
+      - General
+      operationId: get_sapi_v1_apipartner_rebateHistory
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L15637
+      x-source-context: <p><code>GET /sapi/v1/apipartner/rebateHistory (HMAC SHA256)</code></p>
+  /api/v3/userDataStream:
+    post:
+      summary: Create userDataStream
+      tags:
+      - General
+      operationId: post_api_v3_userDataStream
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L22734
+      x-source-context: <p><code>POST /api/v3/userDataStream</code></p></p>
+    put:
+      summary: Update userDataStream
+      tags:
+      - General
+      operationId: put_api_v3_userDataStream
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L22774
+      x-source-context: <p><code>PUT /api/v3/userDataStream</code></p>
+    delete:
+      summary: Delete userDataStream
+      tags:
+      - General
+      operationId: delete_api_v3_userDataStream
+      responses:
+        '200':
+          description: Successful response
+      x-source-documentation: https://docs.binance.us/#L22829
+      x-source-context: <p><code>DELETE /api/v3/userDataStream</code></p>
