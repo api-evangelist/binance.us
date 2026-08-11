@@ -37,13 +37,14 @@ apis:
 - aid: binance.us:rest-api
   name: Binance.US REST API
   description: >-
-    The Binance.US REST API is the primary programmatic interface to the exchange. It exposes general system
-    and exchange information, market and trade data (recent/aggregate/historical trades, order book depth,
-    klines, ticker and rolling-window price statistics), user account data, sub-account data, spot trade order
-    management including OCO and cancel-replace, OTC quoting and order placement, wallet deposits and
-    withdrawals, dust conversion, referral reward history, staking, Custodial Solution endpoints, Credit Line
-    endpoints and API Partner endpoints. Public endpoints are unauthenticated; TRADE and USER_DATA endpoints
-    require an API key plus an HMAC SHA-256 signature and a millisecond timestamp bounded by recvWindow.
+    The Binance.US REST API is the primary programmatic interface to the exchange. It exposes general
+    system and exchange information, market and trade data (recent/aggregate/historical trades, order
+    book depth, klines, ticker and rolling-window price statistics), user account data, sub-account data,
+    spot trade order management including OCO and cancel-replace, OTC quoting and order placement, wallet
+    deposits and withdrawals, dust conversion, referral reward history, staking, Custodial Solution endpoints,
+    Credit Line endpoints and API Partner endpoints. Public endpoints are unauthenticated; TRADE and USER_DATA
+    endpoints require an API key plus an HMAC SHA-256 signature and a millisecond timestamp bounded by
+    recvWindow.
   humanURL: https://docs.binance.us/#rest-api
   baseURL: https://api.binance.us
   image: https://public.cstatic.us/static/images/binance_previewImage.png
@@ -70,12 +71,12 @@ apis:
 - aid: binance.us:websocket-api
   name: Binance.US WebSocket API
   description: >-
-    The Binance.US WebSocket API is a request/response API delivered over a persistent WebSocket connection at
-    wss://ws-api.binance.us/ws-api/v3. It is functionally equivalent to the REST API — the same parameters,
+    The Binance.US WebSocket API is a request/response API delivered over a persistent WebSocket connection
+    at wss://ws-api.binance.us/ws-api/v3. It is functionally equivalent to the REST API — the same parameters,
     the same status and error codes — but offers lower latency for time-sensitive trading. It covers general
-    requests, market data requests, trading requests (place/test/query/cancel/replace orders and OCO), account
-    requests, and user data stream lifecycle requests. SIGNED (TRADE and USER_DATA) requests use the same
-    HMAC SHA-256 signature and timing rules as the REST API.
+    requests, market data requests, trading requests (place/test/query/cancel/replace orders and OCO),
+    account requests, and user data stream lifecycle requests. SIGNED (TRADE and USER_DATA) requests use
+    the same HMAC SHA-256 signature and timing rules as the REST API.
   humanURL: https://docs.binance.us/#websocket-api
   baseURL: wss://ws-api.binance.us/ws-api/v3
   image: https://public.cstatic.us/static/images/binance_previewImage.png
@@ -96,9 +97,9 @@ apis:
     Binance.US WebSocket Streams deliver real-time market data and account events over persistent WebSocket
     connections at wss://stream.binance.us:9443. Market data streams include aggregate trade, raw trade,
     kline/candlestick, individual and all-market mini-ticker, 24h ticker, rolling-window statistics, book
-    ticker, partial order book depth and diff depth streams. User data streams — opened with a listenKey from
-    the REST API — push outboundAccountPosition, balanceUpdate, executionReport and listStatus events. Streams
-    can be consumed raw at /ws/streamName or combined at /stream?streams=, with SUBSCRIBE, UNSUBSCRIBE,
+    ticker, partial order book depth and diff depth streams. User data streams — opened with a listenKey
+    from the REST API — push outboundAccountPosition, balanceUpdate, executionReport and listStatus events.
+    Streams can be consumed raw at /ws/streamName or combined at /stream?streams=, with SUBSCRIBE, UNSUBSCRIBE,
     LIST_SUBSCRIPTIONS, SET_PROPERTY and GET_PROPERTY control messages.
   humanURL: https://docs.binance.us/#websocket-streams
   baseURL: wss://stream.binance.us:9443
@@ -114,6 +115,16 @@ apis:
     url: https://docs.binance.us/#websocket-streams
   - type: AsyncAPI
     url: asyncapi/binance.us-websocket-streams-asyncapi.yml
+- aid: binance.us:binance.us-general-api
+  name: Binance.US General API
+  description: The General API from Binance.US — 82 operation(s) for general.
+  humanURL: https://docs.binance.us/#rest-api
+  baseURL: https://api.binance.us
+  tags:
+  - General
+  properties:
+  - type: OpenAPI
+    url: openapi/binance.us-general-api-openapi.yml
 common:
 - type: TrustCenter
   url: security/binance.us-trust-center.yml
