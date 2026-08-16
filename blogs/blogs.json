@@ -1,0 +1,14 @@
+{
+  "repo": "binance.us",
+  "feeds": [
+    {
+      "source": "https://support.binance.us/en",
+      "feed_url": "https://support.binance.us/en/feed.xml",
+      "title": "",
+      "saved": 5,
+      "method": "discovered"
+    }
+  ],
+  "post_count": 5,
+  "fetched": "2026-08-15T12:22:01Z"
+}
