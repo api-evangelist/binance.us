@@ -14,7 +14,7 @@ url: https://raw.githubusercontent.com/api-evangelist/binance.us/refs/heads/main
 image: https://public.cstatic.us/static/images/binance_previewImage.png
 x-type: company
 x-source: harvest:secondary-market
-specificationVersion: '0.20'
+specificationVersion: '0.23'
 created: '2026-08-07'
 modified: '2026-08-07'
 tags:
