@@ -24,6 +24,17 @@ tags:
 - Exchange
 - Trading
 - Market Data
+- Financial-Services
+- WebSocket
+- Custody
+- Staking
+tags_raw:
+- Company
+- Cryptocurrency
+- Digital Assets
+- Exchange
+- Trading
+- Market Data
 - Financial Services
 - WebSocket
 - Custody
@@ -48,6 +59,13 @@ apis:
   baseURL: https://api.binance.us
   image: https://public.cstatic.us/static/images/binance_previewImage.png
   tags:
+  - Cryptocurrency
+  - Exchange
+  - Trading
+  - Market Data
+  - Wallets
+  - REST
+  tags_raw:
   - Cryptocurrency
   - Exchange
   - Trading
