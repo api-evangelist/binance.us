@@ -11,6 +11,17 @@ description: >-
   publishes a full error-code registry, symbol/exchange filter rules, weighted IP and order rate limits, and
   a dated changelog in its official GitHub documentation repository.
 url: https://raw.githubusercontent.com/api-evangelist/binance.us/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://public.cstatic.us/static/images/binance_previewImage.png
 x-type: company
 x-source: harvest:secondary-market
