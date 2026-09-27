@@ -1,0 +1,18 @@
+{
+  "provider": "binance.us",
+  "sources": [
+    "binance.us-derived-openapi.yml"
+  ],
+  "outputs": [
+    "binance.us-general-api-openapi.yml"
+  ],
+  "archived": [
+    "archived openapi/binance.us-derived-openapi.yml"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "apis.yml register: written (+1 apis, 4 total)"
+  ],
+  "skipped": []
+}
