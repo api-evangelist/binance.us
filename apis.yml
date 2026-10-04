@@ -49,10 +49,11 @@ tags:
 - Exchange
 - Trading
 - Market Data
-- Financial-Services
+- Financial Services
 - WebSocket
 - Custody
 - Staking
+- Real-Time
 tags_raw:
 - Company
 - Cryptocurrency
@@ -64,6 +65,8 @@ tags_raw:
 - WebSocket
 - Custody
 - Staking
+- Financial-Services
+- Real-Time
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
