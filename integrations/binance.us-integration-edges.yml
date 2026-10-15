@@ -27,8 +27,49 @@ edges:
   trust_score: 8
   detected_by: sweep-crypto.py
   first_seen: '2026-10-14'
+- partner_name: FinCEN (MSB registration)
+  partner: null
+  partner_match: register
+  type: contract
+  channel: regulator-register
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://msb.fincen.gov/
+  category: Money services business
+  contract_reference:
+    register: FinCEN MSB Registrant Search (msb.fincen.gov, full list export)
+    spec_file: null
+    standard: FinCEN MSB registration (US Bank Secrecy Act)
+    role: fincen-msb-registrant
+    registered_name: BAM Trading Services Inc.
+    dba_name: Binance.us
+    register_id: BAM Trading Services Inc.
+    matched_domain: binance.us
+    matched_by: domain+verified
+    identity: 'hand-verified: DBA Binance.us (BAM Trading is Binance.US''s operator); Wikidata gave binance.com
+      (the separate global exchange); all/binance.us is named ''Binance.US'', Website www.binance.us'
+    identity_source: hand-verified (LOCAL_VERIFIED)
+    msb_activities:
+    - 409 money transmitter
+    - 413 seller of prepaid access
+    - 414 provider of prepaid access
+    states_of_activity: 39
+    received_date: 05/21/2025
+    signal_note: 'participation only: an MSB registration is not a licence or a certification; activities and states
+      are context, never counted'
+    detected_by: sweep-regtech-aml.py
+    detected: '2026-10-15'
+  detected_by: sweep-regtech-aml.py
+  first_seen: '2026-10-15'
 generated: '2026-10-13'
 method: searched
 checked:
 - https://api.coingecko.com/api/v3/exchanges
+- https://kantarainitiative.org/trust-status-list/
+- https://msb.fincen.gov/
 - https://raw.githubusercontent.com/ccxt/ccxt/master/exchanges.json
+- https://www.access-dvs-register.service.gov.uk/register/download-register
+source:
+- https://msb.fincen.gov/
+- https://www.access-dvs-register.service.gov.uk/register/download-register
+- https://kantarainitiative.org/trust-status-list/

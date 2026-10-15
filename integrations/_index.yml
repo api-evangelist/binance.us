@@ -24,3 +24,37 @@
   relationship: connector-coverage
   status: not-a-workflow
   arazzo: null
+- slug: binance.us-fincen-msb-registration
+  label: FinCEN (MSB registration)
+  partner_name: FinCEN (MSB registration)
+  category: Money services business
+  type: contract
+  channel: regulator-register
+  evidence: https://msb.fincen.gov/
+  source: edge
+  relationship: standard-participant
+  contract_reference:
+    register: FinCEN MSB Registrant Search (msb.fincen.gov, full list export)
+    spec_file: null
+    standard: FinCEN MSB registration (US Bank Secrecy Act)
+    role: fincen-msb-registrant
+    registered_name: BAM Trading Services Inc.
+    dba_name: Binance.us
+    register_id: BAM Trading Services Inc.
+    matched_domain: binance.us
+    matched_by: domain+verified
+    identity: 'hand-verified: DBA Binance.us (BAM Trading is Binance.US''s operator); Wikidata gave binance.com
+      (the separate global exchange); all/binance.us is named ''Binance.US'', Website www.binance.us'
+    identity_source: hand-verified (LOCAL_VERIFIED)
+    msb_activities:
+    - 409 money transmitter
+    - 413 seller of prepaid access
+    - 414 provider of prepaid access
+    states_of_activity: 39
+    received_date: 05/21/2025
+    signal_note: 'participation only: an MSB registration is not a licence or a certification; activities and states
+      are context, never counted'
+    detected_by: sweep-regtech-aml.py
+    detected: '2026-10-15'
+  status: not-a-workflow
+  arazzo: null
